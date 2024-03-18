@@ -102,33 +102,32 @@ Versión actual: 1.0.0
 
 Este es un proyecto en desarrollo. A continuación hay una lista de los elementos desarrollados (y en qué versión) y los elementos por desarrollar para tener una versión relativamente completa de esta plantilla:
 
-[x] Archivo de configuración global (1.0)
-[x] CLI de instalación (1.0)
-[x] Buscador de la colección (usa indexado basado en la librería Lunr) (1.0)
-[x] Procesamiento de imágens (usa la librería Sharp para la producción de derivatives IIIF y thumbnails) (1.0)
-[x] Visor de imágenes IIIF 3 (usa la librería OpenSeaDragon) (1.0)
-[x] Previsualización de ítem que lleva a página de ítem. Además hay un método, medio hacky, para insertarlas usando Markdown. (1.0)
-[x] Soporte Markdown para páginas básicas (1.0)
-[x] Readme con documentación (1.0)
-[ ] Interfaz de galería. Está a medias, faltan filtros.
-[ ] Generación de manifests IIIF para cada imagen
-[ ] Crear derivatives y adaptar el visor para múltiples imágenes por ítem. En este momento solo soporta una.
-[ ] Crear distintos modos de presentación de los metadatos (texto, número, referencia interna, link, fecha)
-
-[ ] Tutorial en video
+- [x] Archivo de configuración global (1.0)
+- [x] CLI de instalación (1.0)
+- [x] Buscador de la colección (usa indexado basado en la librería Lunr) (1.0)
+- [x] Procesamiento de imágens (usa la librería Sharp para la producción de derivatives IIIF y thumbnails) (1.0)
+- [x] Visor de imágenes IIIF 3 (usa la librería OpenSeaDragon) (1.0)
+- [x] Previsualización de ítem que lleva a página de ítem. Además hay un método, medio hacky, para insertarlas usando Markdown. (1.0)
+- [x] Soporte Markdown para páginas básicas (1.0)
+- [x] Readme con documentación (1.0)
+- [ ] Interfaz de galería. Está a medias, faltan filtros.
+- [ ] Generación de manifests IIIF para cada imagen
+- [ ] Crear derivatives y adaptar el visor para múltiples imágenes por ítem. En este momento solo soporta una.
+- [ ] Crear distintos modos de presentación de los metadatos (texto, número, referencia interna, link, fecha)
+- [ ] Tutorial en video
 
 ### Ideas experimentales
 
 Estas ideas se pueden desarrollar como experimentos y como alternativas para usuarios avanzados:
 
-[ ] Visualización de la colección con grafos
-[ ] Visualización de gráfico de dispersión al estilo ImagePlot
-[ ] Paneles interactivos usando Aventura
-[ ] Línea de tiempo
-[ ] Diseño simple, pero más bonito
-[ ] Temas instalables
-[ ] Otras opciones IIIF, como superposiciones o lupas
-[ ] Reproductor de sonido
+- [ ] Visualización de la colección con grafos
+- [ ] Visualización de gráfico de dispersión al estilo ImagePlot
+- [ ] Paneles interactivos usando Aventura
+- [ ] Línea de tiempo
+- [ ] Diseño simple, pero más bonito
+- [ ] Temas instalables
+- [ ] Otras opciones IIIF, como superposiciones o lupas
+- [ ] Reproductor de sonido
 
 ## Créditos
 
