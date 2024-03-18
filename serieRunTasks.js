@@ -1,6 +1,8 @@
 import sharp from 'sharp';
 import lunr from 'lunr';
 import fs from 'fs/promises';
+import cliProgress from 'cli-progress';
+
 import { createReadStream, readdirSync, existsSync } from 'fs';
 import serieConfig from './data/serie.config.js';
 import process from 'process';
@@ -130,6 +132,12 @@ async function batchProcessImages(metadata) {
 
   const imagesFilenames = readdirSync(dataPath + imagesFolder);
 
+  const progressBar = new cliProgress.SingleBar({}, cliProgress.Presets.shades_classic);
+
+  processMsg("Processing images...");
+  let i = 0;
+  progressBar.start(metadata.length, i);
+  
   for (let e of metadata) {
     const regex = new RegExp(`^${e.pid}`);
     const filename = imagesFilenames.find(d => regex.test(d));
@@ -140,7 +148,12 @@ async function batchProcessImages(metadata) {
     // Podría hacer esto de forma asíncrona?
     await createThumbnails(`${dataPath}${imagesFolder}${filename}`, `${thumbsPath}${filename}`);
     await createIIIFDerivatives(e.pid, `${dataPath}${imagesFolder}${filename}`);
+
+    i++;
+    progressBar.update(i);
   }
+
+  progressBar.stop();
 }
 
 async function createThumbnails(inputPath, outputFolder) {
@@ -167,7 +180,7 @@ async function generateIIIFLevel0ImageTiles(inputPath, outputFolder, tileSize) {
   await sharp(inputPath).tile({
     size: tileSize,
     layout: "iiif3",
-    id: mode === "dev" ? `${localBase}${serieConfig.baseurl}/iiif` : "local" ? `${localBuild}/build/iiif` : `${serieConfig.base}${serieConfig.baseurl}/iiif`
+    id: mode === "dev" ? `${localBase}${serieConfig.baseurl}/iiif` : mode === "local" ? `${localBuild}/docs/iiif` : `${serieConfig.base}${serieConfig.baseurl}/iiif`
   }).toFile(outputFolder, (err, info) => {
     // console.log(info);
   }); 

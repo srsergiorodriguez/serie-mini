@@ -1,7 +1,7 @@
 const config = {
   "lang": "es",
   "base": "https://ssergiorodriguezz.github.io",
-  "baseurl": "/serie",
+  "baseurl": "/serie-mini",
   "title": "Serie L",
   "subtitle": "Una mini colección digital",
   "credits": "Hecho con Serie L",
