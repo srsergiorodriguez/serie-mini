@@ -1,0 +1,37 @@
+<script>
+  import MainMenu from './MainMenu.svelte';
+  import serieConfig from '../config/serie.config.js';
+  import { base } from '$app/paths';
+</script>
+
+<header class="main-header">
+  <div>
+    <h1 class="main-title"><a href={base}>{serieConfig.title}</a></h1>
+    <span class="main-subtitle">{serieConfig.subtitle}</span>
+  </div>
+  
+  <MainMenu />
+</header>
+
+<style>
+  a {
+    text-decoration: none;
+    color: var(--accent2);
+  }
+
+  h1 {
+    font-size: 5em;
+    padding: 0;
+    margin: 0;
+  }
+
+  .main-header {
+    display: flex;
+    padding: 1em;
+    justify-content: space-around;
+    align-items: end;
+    background: var(--accent1);
+    border: solid 1px var(--accent1);
+    height: 200px;
+  }
+</style>

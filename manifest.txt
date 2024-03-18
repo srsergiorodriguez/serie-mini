@@ -1,0 +1,49 @@
+{
+  "manifest":
+  {
+    "@context": "http://iiif.io/api/presentation/2/context.json",
+    "@id": "https://gestionmojicon100.github.io/comicsperdidos/img/derivatives/iiif/ricardorendonveraneo/manifest.json", // HTTP URI
+    "@type": "sc:Manifest",
+    "label": "rinaldoscandrogliorenacuajo",
+    "thumbnail": "https://gestionmojicon100.github.io/comicsperdidos/img/derivatives/iiif/images/rinaldoscandrogliorenacuajo/full/250,/0/default.jpg",
+    "viewingDirection": "left-to-right",
+    "viewingHint": "individuals",
+    "sequences": [],
+    "full": "https://gestionmojicon100.github.io/comicsperdidos/img/derivatives/iiif/images/rinaldoscandrogliorenacuajo/full/full/0/default.jpg",
+    "fullwidth": "https://gestionmojicon100.github.io/comicsperdidos/img/derivatives/iiif/images/rinaldoscandrogliorenacuajo/full/1140,/0/default.jpg"
+  },
+
+  "sequence": {
+    "@id": "https://gestionmojicon100.github.io/comicsperdidos/img/derivatives/iiif/sequence/rinaldoscandrogliorenacuajo.json",
+    "@type": "sc:Sequence",
+    "canvases": []
+  },
+
+  "canvas": {
+    "@type": "sc:Canvas",
+    "@id": "https://gestionmojicon100.github.io/comicsperdidos/img/derivatives/iiif/canvas/rinaldoscandrogliorenacuajo.json",
+    "label": "front",
+    "width": 2000,
+    "height": 2667,
+    "thumbnail": "https://gestionmojicon100.github.io/comicsperdidos/img/derivatives/iiif/images/rinaldoscandrogliorenacuajo/full/250,/0/default.jpg",
+  },
+
+  "imageAnnotation": {
+    "@type": "oa:Annotation",
+    "@id": "https://gestionmojicon100.github.io/comicsperdidos/img/derivatives/iiif/annotation/rinaldoscandrogliorenacuajo.json",
+    "motivation": "sc:painting",
+    "on": "https://gestionmojicon100.github.io/comicsperdidos/img/derivatives/iiif/canvas/rinaldoscandrogliorenacuajo.json",
+    "width": 2000,
+    "height": 2667,  
+    "resource": {
+      "@id": "https://gestionmojicon100.github.io/comicsperdidos/img/derivatives/iiif/images/rinaldoscandrogliorenacuajo/full/full/0/default.jpg",
+      "@type": "dcterms:Image",
+      "format": "image/jpeg",
+      "service": {
+        "@context": "http://iiif.io/api/image/2/context.json",
+        "@id": "https://gestionmojicon100.github.io/comicsperdidos/img/derivatives/iiif/images/rinaldoscandrogliorenacuajo",
+        "profile": "http://iiif.io/api/image/2/level0.json"
+      },
+    } 
+  }
+}
