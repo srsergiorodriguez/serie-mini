@@ -1,6 +1,6 @@
 {
   "@context": "http://iiif.io/api/image/3/context.json",
-  "id": "https://ssergiorodriguezz.github.io/serie-mini/iiif/AdriaenCollaert",
+  "id": "https://srsergiorodriguez.github.io/serie-mini/iiif/AdriaenCollaert",
   "type": "ImageService3",
   "profile": "level0",
   "protocol": "http://iiif.io/api/image",

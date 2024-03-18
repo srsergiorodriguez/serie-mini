@@ -1,10 +1,10 @@
 const config = {
   "lang": "es",
-  "base": "https://ssergiorodriguezz.github.io",
+  "base": "https://srsergiorodriguez.github.io",
   "baseurl": "/serie-mini",
-  "title": "Serie L",
-  "subtitle": "Una mini colección digital",
-  "credits": "Hecho con Serie L",
+  "title": "Serie Mini",
+  "subtitle": "Una plataforma para mini colecciones digitales",
+  "credits": "Por Sergio Rodríguez Gómez. Hecho con Serie Mini",
   "copyright": "Todos los derechos reservados, 2024",
   "pages": {
     "iiifViewer": true,
@@ -18,9 +18,16 @@ const config = {
         "key": "autor",
         "label": "Autor",
         "type": "text"
+      },
+      {
+        "key": "fecha",
+        "label": "Fecha",
+        "type": "text"
       }
     ],
     "metadataToIndex": [
+      "label",
+      "autor",
       "fecha"
     ]
   }
