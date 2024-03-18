@@ -6,7 +6,7 @@
 		"config": "npm install && node serieConfigCli.js",
 		"dev": "node serieRunTasks.js dev && vite dev",
 		"build:local": "node serieRunTasks.js local && vite build",
-		"build:production": "node serieRunTasks.js local && vite build"
+		"build:production": "node serieRunTasks.js && vite build"
 	},
 	"devDependencies": {
 		"@sveltejs/adapter-auto": "^3.0.0",
