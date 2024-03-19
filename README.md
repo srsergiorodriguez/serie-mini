@@ -85,6 +85,8 @@ Como esta es una plantilla simple y pensada como herramienta pedagógica, el sit
 | creditos  | En esta página puedes poner tus créditos detallados. Se accede a través del footer                           |
 | metadatos | En esta página se muestra una tabla con los metadatos de la colección y un botón para descargarlos. Puedes usarla, como se muestra en el ejemplo, para poner otra información relacionada con la recolección y modelado de los datos. Por ejemplo, sus protocolos |
 
+:point_up: ***NOTA***: en la parte superior de la página Explorar hay una variable llamada "galleryFilters", los nombres de columnas de los metadatos que se incluyan aquí determinarán los filtros posibles que se pueden usar en la galería, por ejemplo, para permitir filtar por pid y label, debes poner: `galleryFilters: ["pid", "label"]`.
+
 #### Componentes adicionales
 
 Adicional al formato tradicional de Markdown, puedes incrustar en las páginas Tour y Portada un componente que muestra una imagen perteneciente a un ítem de la colección usando la siguiente convención: `![TEXTO ALTERNATIVO](!pid DEL ÍTEM)`. Es decir, es igual a la convención de una imágen en Markdown, pero, en vez de un enlace a la imagen entre paréntesis, tiene el pid del ítem precedido por un signo de admiración "!". Este componente muestra la imagen, su label y lleva a la página del ítem al hacer clic en él. Así, puede usarse, por ejemplo, en la página de Tour para hacer referencia a imágenes de la colección.
@@ -103,7 +105,7 @@ Luego de hacer esto, GitHub creará un sitio web con la colección. Puede tomar 
 
 ## Opciones para usuarios intermedios
 
-...En desarrollo
+- En el archivo serie.config.js en la carpeta data, puedes modificar el texto que aparecerá como nombre de cada columna de metadatos modificando el objeto "metadataToShow" y el parámetro "label".
 
 ## Ruta de trabajo. Elementos por desarrollar
 
@@ -119,7 +121,7 @@ Este es un proyecto en desarrollo. A continuación hay una lista de los elemento
 - [x] Previsualización de ítem que lleva a página de ítem. Además hay un método, medio hacky, para insertarlas usando Markdown. (1.0)
 - [x] Soporte Markdown para páginas básicas (usa la librería svelte-markdown) (1.0)
 - [x] Readme con documentación (1.0)
-- [ ] Interfaz de galería. Está a medias, faltan filtros.
+- [x] Interfaz de galería (1.0)
 - [ ] Generación de manifests IIIF para cada imagen
 - [ ] Crear derivatives y adaptar el visor para múltiples imágenes por ítem. En este momento solo soporta una.
 - [ ] Crear distintos modos de presentación de los metadatos (texto, número, referencia interna, link, fecha)

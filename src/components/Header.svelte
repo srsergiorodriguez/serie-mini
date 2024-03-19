@@ -19,7 +19,8 @@
     color: var(--accent2);
   }
 
-  h1 {
+  .main-title {
+    max-width: 600px;
     font-size: 5em;
     padding: 0;
     margin: 0;
@@ -32,7 +33,7 @@
     align-items: end;
     background: var(--accent1);
     border: solid 1px var(--accent1);
-    height: 200px;
+    min-height: 200px;
     flex-direction: row;
   }
 

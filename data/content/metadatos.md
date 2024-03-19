@@ -17,4 +17,4 @@ Este es el protocolo que especifica la construcción de los datos de la colecci�
 | autor  | Autor de la obra. Inciales con mayúsculas, incluir acentos                      | categórico |
 | fecha  | Año aproximado de producción de la obra. Escrito en número completo (p.ej 1589) | ordinal    |
 
-## Tabla de metadatos
+<!-- La tabla de metadatos se carga automáticamente -->

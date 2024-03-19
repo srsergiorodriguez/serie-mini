@@ -7,6 +7,8 @@
   import { mdData } from "./../data/md";
   const md = mdData.explore.body;
 
+  let filters = mdData.explore.attributes.galleryFilters
+
   export let data;
 </script>
 
@@ -14,5 +16,5 @@
   <SvelteMarkdown source={md} />
 
   <SearchBar />
-  <Gallery metadata={data.metadata} />
+  <Gallery name={"Galería"} metadata={data.metadata} {filters}/>
 </Page>

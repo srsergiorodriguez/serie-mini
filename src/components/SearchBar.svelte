@@ -1,6 +1,7 @@
 <script>
   import lunr from 'lunr';
   import serieConfig from '../config/serie.config.js';
+  import { blur } from 'svelte/transition';
   import { uniqueId } from '../helpers';
   import { searchIndex } from '../routes/data/searchIndex';
   import { metadata } from '../routes/data/metadata';
@@ -20,7 +21,9 @@
       resultsList = [];
       return
     }
-    const lunrResult = lunarIndex.search(e.target.value);
+
+    const searchFormatted = e.target.value;
+    const lunrResult = lunarIndex.search(searchFormatted);
     resultsList = lunrResult.map(d  => metadata.find(m => m.pid === d.ref));
   }
 </script>
@@ -41,7 +44,7 @@
 
     <div class="resultsList-preview">
       {#each resultsList as result}
-        <div class="result-preview">
+        <div transition:blur={{ duration: 300 }} class="result-preview">
           <div class="result-thumb">
             <a href="{base}/pages/{result.pid}"><img src="{base}/thumbs/{result.pid}.jpg" alt=""/></a>
           </div>

@@ -4,6 +4,8 @@
 	"private": true,
 	"scripts": {
 		"config": "node serieConfigCli.js",
+		"tasks": "node serieRunTasks.js",
+		"preview": "vite dev",
 		"dev": "node serieRunTasks.js dev && vite dev",
 		"build:local": "node serieRunTasks.js local && vite build",
 		"build:production": "node serieRunTasks.js && vite build"

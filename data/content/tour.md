@@ -14,4 +14,4 @@ Así:
 
 ![TEST](!AdriaenCollaert)
 
-Puedes usar urls convencionales con normalidad en el formato Markdown si no sigues esta convención.
+Puedes usar urls de imágenes externas con normalidad en el formato Markdown si no sigues esta convención.

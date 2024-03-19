@@ -10,5 +10,5 @@
 
 <Page>
   <SvelteMarkdown source={md} />
-  <MetadataTable {metadata} />
+  <MetadataTable name={"Tabla de metadatos"} {metadata} />
 </Page>

@@ -68,7 +68,7 @@ async function startConfig() {
   const keys = Object.keys(metadata[0]);
   const questions = getQuestions(keys);
 
-  msg("\nEste programa de Serie L te guiará paso a paso en la configuración de tu colección. Responde las siguientes preguntas...\n", "blue");
+  msg("\nEste programa de Serie Mini te guiará paso a paso en la configuración de tu colección. Responde las siguientes preguntas...\n", "blue");
 
   const answers = await inquirer.prompt(questions);
 

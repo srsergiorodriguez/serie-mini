@@ -3,7 +3,7 @@ const config = {
   "base": "https://srsergiorodriguez.github.io",
   "baseurl": "/serie-mini",
   "title": "Serie Mini",
-  "subtitle": "Una plataforma para mini colecciones digitales",
+  "subtitle": "Una plantilla para mini colecciones digitales",
   "credits": "Por Sergio Rodríguez Gómez. Hecho con Serie Mini",
   "copyright": "Todos los derechos reservados, 2024",
   "pages": {
@@ -11,7 +11,7 @@ const config = {
     "metadataToShow": [
       {
         "key": "label",
-        "label": "Label",
+        "label": "Nombre",
         "type": "text"
       },
       {

@@ -1,7 +1,10 @@
 <script>
   import { base } from '$app/paths';
   export let metadata;
+  export let name;
 </script>
+
+<h2>{name}</h2>
 
 <div class="metadata-table-container">
   <table class="metadata-table">
@@ -21,7 +24,7 @@
 </div>
 
 <div class="button-container">
-  <a download target="_blank" rel="noreferrer" href={`${base}/data/metadata.csv`}><button class="default-button">Descargar</button></a>
+  <a download target="_blank" rel="noreferrer" href={`${base}/data/metadata.csv`}><button class="default-button">Descargar CSV</button></a>
 </div>
 
 <style>

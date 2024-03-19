@@ -1,14 +1,24 @@
 <script>
   import { base } from '$app/paths';
   import { sortAlpha } from '../helpers';
+  import { blur } from 'svelte/transition';
+  import Filter from './Filter.svelte';
 
-  export let metadata
+  export let metadata;
+  export let filters;
+  export let name;
+
+  let filtered = metadata;
+
 </script>
 
-<h1>Galería</h1>
+<h2>{name}</h2>
+
+<Filter bind:filtered {metadata} {filters} />
+
 <div class="preview-gallery">
-  {#each sortAlpha(metadata, "label") as d}
-    <div class="preview-item">
+  {#each sortAlpha(filtered, "label") as d,i (i)}
+    <div transition:blur={{ duration: 400 }} class="preview-item">
       <a href="{base}/pages/{d.pid}"><img src="{base}/thumbs/{d.pid}.jpg" alt=""/></a>
       <a class="silent-link" href="{base}/pages/{d.pid}">{d.label}</a>
     </div>
