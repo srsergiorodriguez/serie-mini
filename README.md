@@ -82,7 +82,7 @@ Como esta es una plantilla simple y pensada como herramienta pedagógica, el sit
 | portada   | Es la primera página que aparece cuando se carga el sitio. Aquí puedes hacer una introducción a la colección |
 | explorar  | Esta página contiene un buscador y una galería básicos para ver un sobrevuelo de la colección                |
 | tour      | En esta página puedes hacer un ensayo o recorrido por temas o elementos particulares de la colección         |
-| creditos  | En esta puedes poner tus créditos                                                                            |
+| creditos  | En esta página puedes poner tus créditos detallados. Se accede a través del footer                           |
 | metadatos | En esta página se muestra una tabla con los metadatos de la colección y un botón para descargarlos. Puedes usarla, como se muestra en el ejemplo, para poner otra información relacionada con la recolección y modelado de los datos. Por ejemplo, sus protocolos |
 
 #### Componentes adicionales
