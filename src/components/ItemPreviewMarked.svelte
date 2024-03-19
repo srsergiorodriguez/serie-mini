@@ -18,7 +18,7 @@
 {#if isPreview}
   <div class="preview-item">
     <a href="{base}/pages/{formatedHref}"><img src="{base}/data/raw_images/{formatedHref}.jpg" title={title} alt={text}/></a>
-    <a href="{base}/pages/{formatedHref}">{metadata.find(d => d.pid === formatedHref).label}</a>
+    <a class="silent-link" href="{base}/pages/{formatedHref}">{metadata.find(d => d.pid === formatedHref).label}</a>
   </div>
 {:else}
   <img src={href} {title} alt={text} />
@@ -35,9 +35,5 @@
   img {
     width: 100%;
   }
-
-  a {
-    color: var(--accent2);
-    font-weight: bold;
-  }
+  
 </style>

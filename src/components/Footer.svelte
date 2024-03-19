@@ -1,9 +1,10 @@
 <script>
+  import { base } from '$app/paths';
   import serieConfig from '../config/serie.config.js';
 </script>
 
 <header class="main-footer">
-  <p class="main-title no-select">{serieConfig.credits}</p>
+  <a href="{base}/credits"><p class="main-title no-select">{serieConfig.credits}</p></a>
   <p class="main-title no-select">{serieConfig.copyright}</p>
 </header>
 
@@ -15,5 +16,14 @@
     align-items: center;
     background: var(--accent1);
     border: solid 1px var(--accent1);
+    flex-direction: row;
+  }
+
+  @media screen and (max-width: 800px) {
+    .main-footer {
+      flex-direction: column;
+      align-items: start;
+      text-align: right;
+    }
   }
 </style>

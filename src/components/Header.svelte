@@ -6,7 +6,7 @@
 
 <header class="main-header">
   <div>
-    <h1 class="main-title"><a href={base}>{serieConfig.title}</a></h1>
+    <h1 class="main-title" id="main-title"><a href={base}>{serieConfig.title}</a></h1>
     <span class="main-subtitle">{serieConfig.subtitle}</span>
   </div>
   
@@ -33,5 +33,14 @@
     background: var(--accent1);
     border: solid 1px var(--accent1);
     height: 200px;
+    flex-direction: row;
+  }
+
+  @media screen and (max-width: 800px) {
+    .main-header {
+      flex-direction: column;
+      text-align: center;
+      align-items: center;
+    }
   }
 </style>

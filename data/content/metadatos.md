@@ -8,7 +8,7 @@ En esta sección se encuentran los metadatos de la colección. Pueden descargars
 
 ## Protocolo
 
-Este es el protocolo que especifica la construcción de los datos
+Este es el protocolo que especifica la construcción de los datos de la colección:
 
 | Dato   | Descripción                                                                     |  Tipo      |
 |---     |---                                                                              |---         |

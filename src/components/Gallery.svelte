@@ -10,7 +10,7 @@
   {#each sortAlpha(metadata, "label") as d}
     <div class="preview-item">
       <a href="{base}/pages/{d.pid}"><img src="{base}/thumbs/{d.pid}.jpg" alt=""/></a>
-      <a href="{base}/pages/{d.pid}">{d.label}</a>
+      <a class="silent-link" href="{base}/pages/{d.pid}">{d.label}</a>
     </div>
   {/each}
 </div>
@@ -30,11 +30,6 @@
 
   .preview-item img {
     width: 100%;
-  }
-
-  a {
-    color: var(--accent2);
-    font-weight: bold;
   }
 
 </style>

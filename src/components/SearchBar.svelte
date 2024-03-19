@@ -46,7 +46,7 @@
             <a href="{base}/pages/{result.pid}"><img src="{base}/thumbs/{result.pid}.jpg" alt=""/></a>
           </div>
           <div class="result-metadata">
-            <a class="metadata-label" href="{base}/pages/{result.pid}">{result.label}</a>
+            <a class="silent-link" href="{base}/pages/{result.pid}">{result.label}</a>
             <div>
               {#each indexedKeys as key}
                 <span class="metadata-item"><span class="metadata-key">{key}: </span><span>{result[key]} | </span></span>
@@ -84,7 +84,7 @@
 
   .resultsList-preview {
     display: grid;
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: 1fr 1fr 1fr;
     grid-gap: 0.5em;
   }
 
@@ -100,12 +100,6 @@
 
   .result-thumb img {
     width: 100%;
-  }
-
-  .metadata-label {
-    color: var(--accent2);
-    font-weight: bold;
-    text-decoration: none;
   }
 
   .metadata-key {

@@ -1,6 +1,6 @@
 <svelte:head>
   <style>
-      @import url("https://fonts.googleapis.com/css2?family=Libre+Franklin:wght@300;500;700&display=swap");
+      @import url('https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&display=swap');
   </style>
 </svelte:head>
 
@@ -8,11 +8,12 @@
 
 <style>
   :global(:root){
-    --stroke: black;
-    --fill: #fdfcfa;
-    --accent1: #c9e2ef;
-    --accent2: #0b456c;
-    --mainfont: 'Helvetica', sans-serif;
+    --stroke: black; /* Font color */
+    --fill: #fdfcfa; /* Background color */
+    --accent1: #c9e2ef; /* Main color */
+    --accent2: #0b456c; /* Higlights color */
+    --mainfont: "Lato", sans-serif;
+    --headerfont: "Lato", sans-serif;
     font-family: var(--mainfont);
   }
 
@@ -28,7 +29,7 @@
   }
 
   :global(h1, h2, h3, h4, h5, h6) {
-    font-family: var(--mainfont);
+    font-family: var(--headerfont);
     color: var(--accent2);
   }
 
@@ -45,9 +46,43 @@
     max-width: 100%;
   }
 
+  :global(a) {
+    color: var(--accent2); 
+  }
+
+  :global(.silent-link) {
+    text-decoration: none;
+    font-weight: bold;
+    color: var(--stroke); 
+  }
+
+  :global(.default-button) {
+    padding: 0.5em;
+    margin: 0.5em 0;
+    border: solid 1px var(--accent2);
+    color: var(--fill);
+    font-size: 1em;
+    background: var(--accent2);
+    cursor: pointer;
+  }
+
+  :global(.default-button:hover) {
+    color: var(--accent2);
+    background: var(--fill);
+  }
+
+  :global(.default-button:active) {
+    background: var(--accent1);
+  }
+
   :global(th, td) {
     border: 1px solid rgba(0,0,0,0.2);
     padding: 0.5em;
+    text-align: left;
+  }
+
+  :global(.silent-link:hover) {
+    color: var(--accent2);
   }
 
   :global(.no-select)  {
@@ -61,11 +96,5 @@
 
   :global(.noevents) {
     pointer-events: none;
-  }
-
-  @media screen and (max-device-width: 450px) {
-    :global(p,.block-text) {
-      font-size: 0.9em;
-    }
   }
 </style>
