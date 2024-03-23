@@ -6,10 +6,10 @@
   export let title = undefined;
   export let text = "";
 
-  let formatedHref = href;
+  let pid = href;
   let isPreview = false;
   if (/^\!/.test(href)) {
-    formatedHref = formatedHref.replace(/^\!/, "");
+    pid = pid.replace(/^\!/, "");
     isPreview = true;
   }
 
@@ -17,8 +17,8 @@
 
 {#if isPreview}
   <div class="preview-item">
-    <a href="{base}/pages/{formatedHref}"><img src="{base}/data/raw_images/{formatedHref}.jpg" title={title} alt={text}/></a>
-    <a class="silent-link" href="{base}/pages/{formatedHref}">{metadata.find(d => d.pid === formatedHref).label}</a>
+    <a href="{base}/pages/{pid}"><img src="{base}/iiif/{pid}/full/512,/0/default.jpg" title={title} alt={text}/></a>
+    <a class="silent-link" href="{base}/pages/{pid}">{metadata.find(d => d.pid === pid).label}</a>
   </div>
 {:else}
   <img src={href} {title} alt={text} />

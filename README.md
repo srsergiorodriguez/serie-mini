@@ -71,6 +71,8 @@ Antes de crear la versión final del sitio, puedes construirlo en modo desarroll
 
 Este código realizará algunas tareas de construcción del sitio, de acuerdo con tu configuración, metadatos e imágenes. Estas tareas pueden tomar unos minutos. Luego se creará el sitio y se servirá localmente. Busca en la terminal un aviso que dice `Local:` seguido de una dirección en color azul. Copia esa dirección en tu explorador web, allí podrás previsualizar cómo se verá tu sitio. 
 
+:point_up: ***NOTA***: si solo necesitas la previsualización pero no requieres ejecutar las tareas nuevamente, por ejemplo, si no modificaste las imágenes, la configuración o los metadatos, pero necesitas previsualizar y editar el contenido de las páginas o su diseño en Svelte, puedes simplemente ejecutar el siguiente código: `npm run preview`. Igualmente, si solo necesitas ejecutar las tareas, para posteriormente crear el build final del sitio, sin pasar por previsualización, puedes ejecutar el código: `npm run tasks`.
+
 ### 7. Editar el contenido del sitio
 
 En la carpeta "data/content" dentro de la **carpeta del proyecto** encuentras una serie de archivos en formato Markdown que definen el contenido de las páginas estáticas de la colección. Estas páginas se pueden editar usando las convenciones de <a href="https://es.wikipedia.org/wiki/Markdown" target="_blank">Markdown</a>. Los cambios hechos en estos archivos se insertarán y actualizarán automáticamente, así que, en modo desarrollador, podrás ver la apariencia final de las páginas y editarlas a tu gusto.
@@ -99,9 +101,7 @@ Una vez tengas una versión terminada del sitio lista para publicar, copia y peg
 
 Luego de hacer esto, GitHub creará un sitio web con la colección. Puede tomar unos minutos en terminar. Una vez esté completo, podrás visitar el sitio en un enlace con este formato: `https://TU_NOMBRE_DE_USUARIO.github.io/TU_REPOSITORIO/`.
 
-:point_up: ***NOTA***: es posible también crear una versión local, usando el código `npm run build:local` en la terminal. Esta alternativa puede ser útil para crear versiones que funcionan sin conexión a internet, y que pueden guardarse en memorias USB o discos duros.
-
-:eyes: ***OJO***: Estas dos opciones de publicación sobreescriben la carpeta docs. Así que debes tenerlo presente antes de subir el sitio a internet o a una memoria.
+:point_up: ***NOTA***: Asegúrate de haber ejecutado `npm run dev` o `npm run tasks` antes de crear la versión terminada del sitio si modificaste la configuración, los metadatos o las imágenes de la colección.
 
 ## Opciones para usuarios intermedios
 
@@ -122,25 +122,27 @@ Este es un proyecto en desarrollo. A continuación hay una lista de los elemento
 - [x] Soporte Markdown para páginas básicas (usa la librería svelte-markdown) (1.0)
 - [x] Readme con documentación (1.0)
 - [x] Interfaz de galería (1.0)
-- [ ] Generación de manifests IIIF para cada imagen
+- [x] Generación de manifests IIIF para cada imagen (1.0)
 - [ ] Crear derivatives y adaptar el visor para múltiples imágenes por ítem. En este momento solo soporta una.
 - [ ] Crear distintos modos de presentación de los metadatos (texto, número, referencia interna, link, fecha)
 - [ ] Tutorial en video
+- [ ] Interfaz en español e inglés
 
 ### Ideas experimentales
 
 Estas ideas se pueden desarrollar como experimentos y como alternativas para usuarios avanzados:
 
 - [ ] Visualización de la colección con grafos
-- [ ] Visualización de gráfico de dispersión al estilo ImagePlot
+- [ ] Visualización de gráfico de dispersión de imágenes al estilo ImagePlot
+- [ ] Mapa de burbujas y grafo en mapa
 - [ ] Paneles interactivos usando Aventura
 - [ ] Línea de tiempo
 - [ ] Diseño simple, pero más bonito
 - [ ] Temas instalables
-- [ ] Otras opciones IIIF, como superposiciones o lupas
 - [ ] Reproductor de sonido
+- [ ] Reproductor de video
 - [ ] Visor TEI
 
 ## Créditos
 
-Esta plantilla es desarrollada por Sergio Rodríguez Gómez. Sigue los principios del código abierto bajo una licencia MIT.
+Esta plantilla es desarrollada por Sergio Rodríguez Gómez. Sigue los principios del código abierto y se ampara en una licencia MIT.

@@ -46,7 +46,7 @@
       {#each resultsList as result}
         <div transition:blur={{ duration: 300 }} class="result-preview">
           <div class="result-thumb">
-            <a href="{base}/pages/{result.pid}"><img src="{base}/thumbs/{result.pid}.jpg" alt=""/></a>
+            <a href="{base}/pages/{result.pid}"><img src="{base}/iiif/{result.pid}/full/256,/0/default.jpg" alt={result.label}/></a>
           </div>
           <div class="result-metadata">
             <a class="silent-link" href="{base}/pages/{result.pid}">{result.label}</a>
@@ -87,7 +87,7 @@
 
   .resultsList-preview {
     display: grid;
-    grid-template-columns: 1fr 1fr 1fr;
+    grid-template-columns: 1fr 1fr;
     grid-gap: 0.5em;
   }
 

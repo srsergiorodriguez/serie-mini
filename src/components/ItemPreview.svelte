@@ -6,7 +6,7 @@
 </script>
 
 <div class="preview-item">
-  <a href="{base}/pages/{pid}"><img src="{base}/data/raw_images/{pid}.jpg" alt=""/></a>
+  <a href="{base}/pages/{pid}"><img src="{base}/iiif/{pid}/full/256,/0/default.jpg" alt=""/></a>
   <a class="silent-link" href="{base}/pages/{pid}">{metadata.find(d => d.pid === pid).label}</a>
 </div>
 

@@ -2,6 +2,12 @@
   import { base } from '$app/paths';
   export let metadata;
   export let name;
+
+  const metadataFiltered = JSON.parse(JSON.stringify(metadata)).map(d => {
+    delete d.manifest_dev
+    return {...d}
+  });
+
 </script>
 
 <h2>{name}</h2>
@@ -9,11 +15,11 @@
 <div class="metadata-table-container">
   <table class="metadata-table">
     <tr>
-      {#each Object.keys(metadata[0]) as h}
+      {#each Object.keys(metadataFiltered[0]) as h}
         <th>{h}</th>
       {/each}
     </tr>
-    {#each metadata as row}
+    {#each metadataFiltered as row}
       <tr>
         {#each Object.values(row) as d}
           <td>{d}</td>

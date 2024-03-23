@@ -1,5 +1,6 @@
 const config = {
   "lang": "es",
+  "localPort": "5173",
   "base": "https://srsergiorodriguez.github.io",
   "baseurl": "/serie-mini",
   "title": "Serie Mini",

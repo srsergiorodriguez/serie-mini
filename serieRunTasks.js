@@ -1,18 +1,15 @@
 import sharp from 'sharp';
 import lunr from 'lunr';
 import fs from 'fs/promises';
+import editJsonFile from 'edit-json-file';
 import cliProgress from 'cli-progress';
+import I3 from "@digital-piranesi/iiif-manifest-library";
 
 import { createReadStream, readdirSync, existsSync } from 'fs';
 import serieConfig from './data/serie.config.js';
-import process from 'process';
 import csvParser from 'csv-parser';
 
-// Puedo hacer la cli acá para determinar tareas
-
-const mode = process.argv[2];
-const localBase = "http://localhost:5173"; // Puedo dejar una opción de escoger el host
-const localBuild = "http://localhost:5500";
+const localBase = `http://localhost:${serieConfig.localPort}`;
 
 const configFile = "serie.config.js";
 const metadataFile = "metadata.csv";
@@ -90,10 +87,10 @@ async function parseMetadata() {
 }
 
 async function createCollection() {
-  const metadata = await parseMetadata();
-  await createMetadataJS(metadata);
+  let metadata = await parseMetadata();
   await createSearchIndex(metadata);
-  await batchProcessImages(metadata);
+  metadata = await batchProcessImages(metadata);
+  await createMetadataJS(metadata);
   processMsg("TASK: created collection elements");
 }
 
@@ -142,18 +139,98 @@ async function batchProcessImages(metadata) {
     const regex = new RegExp(`^${e.pid}`);
     const filename = imagesFilenames.find(d => regex.test(d));
     if (filename === undefined) {
-      console.log(`Couldn't find corresponding image for ${e.pid}`);
+      console.error(`Couldn't find corresponding image for ${e.pid}`);
     }
     // Check if valid image format
     // Podría hacer esto de forma asíncrona?
-    await createThumbnails(`${dataPath}${imagesFolder}${filename}`, `${thumbsPath}${filename}`);
-    await createIIIFDerivatives(e.pid, `${dataPath}${imagesFolder}${filename}`);
+    // await createThumbnails(`${dataPath}${imagesFolder}${filename}`, `${thumbsPath}${filename}`);
+    await createIIIFDerivatives(`${dataPath}${imagesFolder}${filename}`, `${derivativesPath}${e.pid}`);
+    const sizes = await createIIIFSizes(`${dataPath}${imagesFolder}${filename}`, `${derivativesPath}${e.pid}`);
+    const { manifestUrl, manifestUrlDev } = await createManifests(e.pid, e.label, sizes[0]);
+
+    e.manifest = manifestUrl;
+    e.manifest_dev = manifestUrlDev;
 
     i++;
     progressBar.update(i);
   }
 
   progressBar.stop();
+
+  return metadata
+}
+
+async function createManifests(pid, label, {width, height}) {
+  // ESTA FUNCION ESTA TERRIBLE, PODRIA HACERLA MUCHO MAS ELEGANTE
+  await mkDir(`${derivativesPath}${pid}/manifest/`);
+
+  const folderBase = `${serieConfig.base}${serieConfig.baseurl}/iiif/${pid}/manifest`;
+  // const folderBase = `${localBase}${serieConfig.baseurl}/iiif/${pid}/manifest`; // PARA TESTS
+  const manifestPath = `${folderBase}/manifest.json`;
+  const staticBase = `${derivativesPath}${pid}/manifest`;
+  const manifestPathDev = `${localBase}${serieConfig.baseurl}/iiif/${pid}/manifest/manifest.json`;
+
+  const manifest = new I3.default.Manifest("3", manifestPath);
+  manifest.addLabel(new I3.default.Label("en", [label]));
+
+  const canvas = new I3.default.ItemCanvas(`${folderBase}/canvas-1.json`, width, height);
+  const page = new I3.default.ItemWebAnnotationPage(`${folderBase}/page-1.json`);
+  const image = new I3.default.ItemWebAnnotationImage(`${folderBase}/image-1.json`, "painting", canvas, `${serieConfig.base}${serieConfig.baseurl}/iiif/${pid}/full/max/0/default.jpg`, width, height);
+
+  page.addItem(image); 
+  canvas.addItem(page);
+  manifest.addItem(canvas);
+
+  // const JSONstring =  manifest.toJSONString(); // Esta es la función original, pero daña la barra de progreso porque imprime algo en la consola
+  const JSONstring =  toJSONString(manifest);
+
+  const manifestFile = `${derivativesPath}${pid}/manifest/manifest.json`;
+  await fs.writeFile(manifestFile, JSONstring);
+
+  const file = editJsonFile(manifestFile);
+  const canvasJSON = file.get("items")[0]; // REVISITAR ESTO CUANDO PUEDA IMPORTAR VARIAS IMÁGENES
+  const pageJSON = canvasJSON.items[0];
+  const imageJSON = pageJSON.items[0];
+
+  await fs.writeFile(`${staticBase}/canvas-1.json`, JSON.stringify(canvasJSON, null, 2));
+  await fs.writeFile(`${staticBase}/page-1.json`, JSON.stringify(pageJSON, null, 2));
+  await fs.writeFile(`${staticBase}/image-1.json`, JSON.stringify(imageJSON, null, 2));
+
+  return { manifestUrl: manifestPath, manifestUrlDev: manifestPathDev}
+}
+
+async function createIIIFSizes(inputPath, outputFolder) {
+  const sizes = [];
+
+  await mkDir(`${outputFolder}/full/max/0/`);
+  await new Promise( r => {
+    sharp(inputPath)
+      .jpeg({quality: 100})
+      .toFile(`${outputFolder}/full/max/0/default.jpg`, (err, info) => {
+        sizes.push({width: info.width, height: info.height});
+        r(info);
+      });
+  });
+
+  const sizesList = [256, 512];
+  for (let width of sizesList) {
+    await mkDir(`${outputFolder}/full/${width},/0/`);
+    await new Promise( r => {
+      sharp(inputPath)
+        .resize({ width: width })
+        .jpeg({quality: 100})
+        .toFile(`${outputFolder}/full/${width},/0/default.jpg`, (err, info) => {
+          sizes.push({width: info.width, height: info.height});
+          r(info);
+        });
+    });
+  }
+
+  // const file = editJsonFile(`${outputFolder}/info.json`);
+  // file.set("sizes", sizes);
+  // file.save();
+
+  return sizes
 }
 
 async function createThumbnails(inputPath, outputFolder) {
@@ -168,22 +245,36 @@ async function createThumbnails(inputPath, outputFolder) {
   .toFile(outputFolder); 
 }
 
-async function createIIIFDerivatives(pid, imageUrl) {
+async function createIIIFDerivatives(inputPath, outputFolder) {
   // Check if image format is valid
-  const outputFolder = `${derivativesPath}${pid}`;
-  const tileSize = 512; // Set the tile size
-  await generateIIIFLevel0ImageTiles(imageUrl, outputFolder, tileSize);
-}
-
-async function generateIIIFLevel0ImageTiles(inputPath, outputFolder, tileSize) {
   // {scheme}://{server}{/prefix}/{identifier}/{region}/{size}/{rotation}/{quality}.{format}
-  await sharp(inputPath).tile({
-    size: tileSize,
-    layout: "iiif3",
-    id: mode === "dev" ? `${localBase}${serieConfig.baseurl}/iiif` : mode === "local" ? `${localBuild}/docs/iiif` : `${serieConfig.base}${serieConfig.baseurl}/iiif`
-  }).toFile(outputFolder, (err, info) => {
-    // console.log(info);
-  }); 
+  const placeholder = "[[[ROUTE_PLACEHOLDER]]]";
+
+  await new Promise(r => {
+    sharp(inputPath).tile({
+      size: 512,
+      layout: "iiif3",
+      id: placeholder
+      // id: mode === "dev" ? `${localBase}${serieConfig.baseurl}/iiif` : mode === "local" ? `${localBuild}/docs/iiif` : `${serieConfig.base}${serieConfig.baseurl}/iiif`
+    }).toFile(outputFolder, (err, info) => {
+      r(info);
+    });
+  });
+
+  const infoFile = `${outputFolder}/info.json`;
+  const infoDevFile = `${outputFolder}/info_dev.json`;
+
+  await fs.copyFile(infoFile, infoDevFile);
+
+  const file = editJsonFile(infoFile);
+  const id = file.get("id").replace(placeholder, `${serieConfig.base}${serieConfig.baseurl}/iiif`);
+  file.set("id", id);
+  file.save();
+
+  const fileDev = editJsonFile(infoDevFile);
+  const idDev = fileDev.get("id").replace(placeholder, `${localBase}${serieConfig.baseurl}/iiif`);
+  fileDev.set("id", idDev);
+  fileDev.save();
 }
 
 async function copyData() {
@@ -193,18 +284,18 @@ async function copyData() {
   await mkDir(staticDataPath);
   await fs.copyFile(dataPath + metadataFile, staticDataPath + metadataFile);
 
-  await mkDir(staticDataPath + imagesFolder);
+  // await mkDir(staticDataPath + imagesFolder);
+  // const imagesFilenames = readdirSync(dataPath + imagesFolder);
+  // for (let e of imagesFilenames) {
+  //   await fs.copyFile(dataPath + imagesFolder + e, staticDataPath + imagesFolder + e);
+  // }
 
-  const imagesFilenames = readdirSync(dataPath + imagesFolder);
-  for (let e of imagesFilenames) {
-    await fs.copyFile(dataPath + imagesFolder + e, staticDataPath + imagesFolder + e);
-  }
   processMsg("TASK: copied new data");
 }
 
 async function mkDir(path) {
   try {
-    await fs.mkdir(path);
+    await fs.mkdir(path, {recursive: true});
   } catch (error) {
     if (error.code !== 'EEXIST') {
       throw error;
@@ -218,4 +309,30 @@ function errorMsg(type, msg) {
 
 function processMsg(msg) {
   console.log("\x1b[32m%s\x1b[0m", msg);
+}
+
+/// PATCH
+
+function toJSONString(manifest) {
+  // Este es un patch de la función por defecto para exportar el manifest
+  // Porque la original muestra en la consola un aviso y daña la barra de avance
+  let obj = Object.assign({}, manifest);
+  const labelString = {"label": getObject(obj.label)};
+  const itemString = {"items": manifest.items};
+  obj = Object.assign(obj, labelString);
+  obj = Object.assign(obj, itemString);
+  return JSON.stringify(obj, null, 2);
+
+  function getObject(label) {
+    const array_of_values = {};
+    for(const key of label.languageMap.keys()){
+      const element = label.languageMap.get(key) || [];
+      const key1 = key;
+      if (element.length === undefined && element.length <= 0){
+        continue;
+      }
+      array_of_values[key1] = element;
+    }
+    return array_of_values;
+  }
 }

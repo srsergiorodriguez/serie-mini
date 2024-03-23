@@ -1,1 +1,0 @@
-const a=[{pid:"AdriaenCollaert",label:"America Tortuga",autor:"Adriaen Collaert",fecha:"1586"},{pid:"JohannSadeler",label:"America Loro",autor:"Johann Sadeler",fecha:"1581"},{pid:"PhilipsGalle",label:"America Composición",autor:"Philips Galle",fecha:"1547"},{pid:"PhilipsGalle2",label:"America Cabeza",autor:"Philips Galle",fecha:"1585"}];export{a as m};

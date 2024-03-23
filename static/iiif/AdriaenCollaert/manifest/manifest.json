@@ -1,0 +1,42 @@
+{
+  "id": "https://srsergiorodriguez.github.io/serie-mini/iiif/AdriaenCollaert/manifest/manifest.json",
+  "type": "Manifest",
+  "@context": "http://iiif.io/api/presentation/3/context.json",
+  "label": {
+    "en": [
+      "America Tortuga"
+    ]
+  },
+  "items": [
+    {
+      "id": "https://srsergiorodriguez.github.io/serie-mini/iiif/AdriaenCollaert/manifest/canvas-1.json",
+      "items": [
+        {
+          "id": "https://srsergiorodriguez.github.io/serie-mini/iiif/AdriaenCollaert/manifest/page-1.json",
+          "items": [
+            {
+              "id": "https://srsergiorodriguez.github.io/serie-mini/iiif/AdriaenCollaert/manifest/image-1.json",
+              "items": [],
+              "type": "Annotation",
+              "@context": "http://www.w3.org/ns/anno.jsonld",
+              "motivation": "painting",
+              "target": "https://srsergiorodriguez.github.io/serie-mini/iiif/AdriaenCollaert/manifest/canvas-1.json",
+              "body": {
+                "id": "https://srsergiorodriguez.github.io/serie-mini/iiif/AdriaenCollaert/full/max/0/default.jpg",
+                "type": "Image",
+                "format": "image/jpeg",
+                "height": 4168,
+                "width": 5110
+              }
+            }
+          ],
+          "type": "AnnotationPage"
+        }
+      ],
+      "type": "Canvas",
+      "width": 5110,
+      "height": 4168,
+      "annotations": []
+    }
+  ]
+}

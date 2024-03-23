@@ -103,6 +103,7 @@ function formatConfig(answers) {
 
   const config = {
     lang: "es",
+    localPort: "5173",
     base: `https://${answers["Usuario GitHub"]}.github.io`,
     baseurl: `/${answers["Nombre Repositorio"]}`,
     title: answers["Título"],

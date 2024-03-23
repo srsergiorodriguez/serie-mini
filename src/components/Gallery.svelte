@@ -19,7 +19,7 @@
 <div class="preview-gallery">
   {#each sortAlpha(filtered, "label") as d,i (i)}
     <div transition:blur={{ duration: 400 }} class="preview-item">
-      <a href="{base}/pages/{d.pid}"><img src="{base}/thumbs/{d.pid}.jpg" alt=""/></a>
+      <a href="{base}/pages/{d.pid}"><img src="{base}/iiif/{d.pid}/full/256,/0/default.jpg" alt={d.label}/></a>
       <a class="silent-link" href="{base}/pages/{d.pid}">{d.label}</a>
     </div>
   {/each}
@@ -36,10 +36,15 @@
   .preview-item {
     display: flex;
     flex-direction: column;
+    max-width: 256px;
+    max-height: 256px;
   }
 
   .preview-item img {
-    width: 100%;
+    width: 256px;
+    height: 200px;
+    object-fit: cover;
+    object-position: 100% 0;
   }
 
 </style>

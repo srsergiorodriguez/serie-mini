@@ -7,8 +7,8 @@
 		"tasks": "node serieRunTasks.js",
 		"preview": "vite dev",
 		"dev": "node serieRunTasks.js dev && vite dev",
-		"build:local": "node serieRunTasks.js local && vite build",
-		"build:production": "node serieRunTasks.js && vite build"
+		"build:production": "vite build",
+		"build": "vite build"
 	},
 	"devDependencies": {
 		"@sveltejs/adapter-auto": "^3.0.0",
@@ -27,8 +27,10 @@
 	},
 	"type": "module",
 	"dependencies": {
+		"@digital-piranesi/iiif-manifest-library": "^1.1.0",
 		"cli-progress": "^3.12.0",
 		"csv-parser": "^3.0.0",
+		"edit-json-file": "^1.8.0",
 		"front-matter": "^4.0.2",
 		"inquirer": "^9.2.16",
 		"lunr": "^2.3.9",
