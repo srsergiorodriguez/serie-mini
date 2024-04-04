@@ -42,7 +42,7 @@ function getQuestions(lang, keys) {
         es: 'Subtítulo de la colección (aparecerá en una fuente pequeña en el encabezado del sitio web):',
         en: 'Subtitle of the collection (it will appear in a smaller font in the header of the website):'
       },
-      default: 'Una plataforma para mini colecciones digitales'
+      default: 'Un sistema para mini colecciones digitales'
     },
     {
       type: 'input',
