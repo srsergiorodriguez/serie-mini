@@ -7,8 +7,6 @@
   import Pager from './Pager.svelte';
   import serieConfig from '../config/serie.config';
 
-  // console.log(serieConfig)
-
   export let metadata;
   export let filters;
 
