@@ -1,6 +1,6 @@
 ---
 name: explore
-galleryFilters: ["label"] ## Lista metadatos para ampliar el filtro de la galería. p.e. ["pid", "label"]
+galleryFilters: ["label", "fecha"] ## Lista de metadatos para ampliar el filtro de la galería. p.e. ["pid", "label"]
 ---
 
 # Explorar

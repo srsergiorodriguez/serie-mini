@@ -7,9 +7,20 @@
 
   export let pid;
 
+  const viewerID = uniqueId();
+
   const itemMetadata = metadata.find(d => d.pid === pid);
 
-  const viewerID = uniqueId();
+  const tileSources = getTileSources(itemMetadata._images);
+
+  function getTileSources(n) {
+    const tileSources = [];
+    for (let i = 0; i < n; i++) {
+      const path = `${base}/iiif/${pid}/${i}/${dev ? "_info" : "info"}.json`;
+      tileSources.push(path);
+    }
+    return tileSources
+  }
 
   let viewer;
   onMount(() => {
@@ -17,11 +28,10 @@
       const OpenSeadragon = module.default;
       viewer = OpenSeadragon({
         id: `osd-container-${viewerID}`,
-        preload: true,
-        // sequenceMode: true,
+        preload: false,
+        sequenceMode: true,
         prefixUrl: `${base}/openseadragon/images/`,
-        tileSources: `${base}/iiif/${pid}/info${dev ? "_dev" : ""}.json`
-
+        tileSources
       });
     }).catch(error => {
       console.error('Error loading OpenSeadragon:', error);
@@ -32,7 +42,7 @@
 <div class="viewer-container">
   <div id="osd-container-{viewerID}" class="osd-container"></div>
   {#if itemMetadata.manifest !== undefined}
-    <div class="manifest-link"><a href="{dev ? itemMetadata.manifest_dev : itemMetadata.manifest}" target="_blank">IIIF Manifest</a></div>
+    <div class="manifest-link"><a href="{dev ? itemMetadata._manifest : itemMetadata.manifest}" target="_blank">IIIF Manifest</a></div>
   {/if}
 </div>
 

@@ -5,8 +5,11 @@ const config = {
   "baseurl": "/serie-mini",
   "title": "Serie Mini",
   "subtitle": "Una plantilla para mini colecciones digitales",
-  "credits": "Por Sergio Rodríguez Gómez. Hecho con Serie Mini",
+  "credits": "Por Sergio Rodríguez Gómez.",
   "copyright": "Todos los derechos reservados, 2024",
+  "logos": [
+    {img: "logos/logo.png", link: "https://github.com/srsergiorodriguez/serie-mini"}
+  ],
   "pages": {
     "iiifViewer": true,
     "metadataToShow": [

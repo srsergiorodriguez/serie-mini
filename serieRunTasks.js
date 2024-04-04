@@ -1,13 +1,15 @@
+import fs from 'fs/promises';
+import path from 'path';
+
 import sharp from 'sharp';
 import lunr from 'lunr';
-import fs from 'fs/promises';
 import editJsonFile from 'edit-json-file';
 import cliProgress from 'cli-progress';
 import I3 from "@digital-piranesi/iiif-manifest-library";
+import csvParser from 'csv-parser';
 
 import { createReadStream, readdirSync, existsSync } from 'fs';
 import serieConfig from './data/serie.config.js';
-import csvParser from 'csv-parser';
 
 const localBase = `http://localhost:${serieConfig.localPort}`;
 
@@ -17,9 +19,7 @@ const imagesFolder = "raw_images/";
 
 const dataPath = "./data/";
 const srcConfigPath = "./src/config/";
-const staticDataPath = "./static/data/";
 const derivativesPath = "./static/iiif/";
-const thumbsPath = "./static/thumbs/";
 
 const metadataPath = "./src/routes/data/metadata.js";
 const indexPath = "./src/routes/data/searchIndex.js";
@@ -41,12 +41,6 @@ async function deleteCopiedData() {
   if (existsSync(derivativesPath)) {
     await fs.rm(derivativesPath, { recursive: true, force: true }, () => {});
   }
-  if (existsSync(thumbsPath)) {
-    await fs.rm(thumbsPath, { recursive: true, force: true }, () => {});
-  }
-  if (existsSync(staticDataPath)) {
-    await fs.rm(staticDataPath, { recursive: true, force: true }, () => {});
-  }
   if (existsSync(srcConfigPath)) {
     await fs.rm(srcConfigPath, { recursive: true, force: true }, () => {});
   }
@@ -54,42 +48,52 @@ async function deleteCopiedData() {
 }
 
 async function parseMetadata() {
-  const results = [];
+  const metadata = [];
   await new Promise(r => {
     createReadStream(dataPath + metadataFile)
       .pipe(csvParser())
-      .on('data', data => results.push(data))
-      .on('end', () => r(results))
+      .on('data', data => metadata.push(data))
+      .on('end', () => r(metadata))
   });
 
   // VALIDATION
+  // Incorrect pid or label
+  if (metadata[0].pid === undefined || metadata[0].label === undefined) {
+    errorMsg("metadata", "Los metadatos no tienen 'pid' o 'label' (en minúsculas) / Metadata doesn't have 'pid' or 'label' (in lowercase)");
+    process.exit(1);
+  } 
+
   // Empty metadata
-  if (results.length <= 0) {
-    errorMsg("metadata", "Metadata is empty / Los metadatos están vacíos");
+  if (metadata.length <= 0) {
+    errorMsg("metadata", "Los metadatos están vacíos / Metadata is empty");
     process.exit(1);
   }
 
   // Unique pids
-  if ([...new Set(results.map(d => d.pid))].length !== results.length) {
-    errorMsg("metadata", "There are non unique pids / Hay pids que no son únicos");
+  if ([...new Set(metadata.map(d => d.pid))].length !== metadata.length) {
+    errorMsg("metadata", "Hay pids que no son únicos / There are non unique pids");
     process.exit(1);
   }
 
   // Has pids and labels
-  for (let e of results) {
+  for (let e of metadata) {
     if (e.pid === undefined || e.label === undefined) {
-      errorMsg("metadata", "There are rows without pids or labels / Hay filas sin pids o labels");
+      errorMsg("metadata", "Hay filas sin pids o labels / There are rows without pids or labels");
       process.exit(1);
     }
   }  
 
-  return results
+  return metadata
 }
 
 async function createCollection() {
   let metadata = await parseMetadata();
   await createSearchIndex(metadata);
-  metadata = await batchProcessImages(metadata);
+
+  if (serieConfig.pages.iiifViewer) {
+    metadata = await batchProcessImages(metadata);
+  }
+  
   await createMetadataJS(metadata);
   processMsg("TASK: created collection elements");
 }
@@ -98,58 +102,90 @@ async function createSearchIndex(metadata) {
   const searchIndex = lunr(function () {
     this.ref("pid");
     const keysToIndex = serieConfig.pages.metadataToIndex.length <= 0 ? Object.keys(metadata[0]) : serieConfig.pages.metadataToIndex;
-    for (let k of keysToIndex) {
-      this.field(k);
-    }
-    for (let d of metadata) {
-      this.add(d);
-    }
+    for (let k of keysToIndex) { this.field(k) }
+    for (let d of metadata) { this.add(d) }
   })
 
-  await fs.writeFile(indexPath, `export const searchIndex = ${JSON.stringify(searchIndex)};`, (err) => {
-    if (err) {
-      console.error('Error writing file:', err);
-      return;
-    }
-  });
+  await fs.writeFile(indexPath, `export const searchIndex = ${JSON.stringify(searchIndex)};`);
 }
 
 async function createMetadataJS(metadata) {
-  await fs.writeFile(metadataPath, `export const metadata = ${JSON.stringify(metadata)};`, (err) => {
-    if (err) {
-      console.error('Error writing file:', err);
-      return;
-    }
-  });
+  await fs.writeFile(metadataPath, `export const metadata = ${JSON.stringify(metadata)};`);
 }
 
 async function batchProcessImages(metadata) {
   await mkDir(derivativesPath);
-  await mkDir(thumbsPath);
 
   const imagesFilenames = readdirSync(dataPath + imagesFolder);
+  const validFilenames = {single: [], folder: []};
+  for (let f of imagesFilenames) {
+    const filePath = `${dataPath}${imagesFolder}${f}`;
+    const stat = await fs.stat(filePath);
+    if (stat.isDirectory()) {
+      const subdirFilenames = readdirSync(filePath);
+      const validSubfiles = [];
+      for (let sf of subdirFilenames) {
+        const subFilePath = `${filePath}/${sf}`;
+        if ((await fs.stat(subFilePath)).isFile() && isValidExtension(subFilePath)) {
+          validSubfiles.push(`${f}/${sf}`);
+        }
+      }
+      if (validSubfiles.length > 0) {
+        validFilenames.folder.push({filename: f, validSubfiles});
+      }
+    } else if (stat.isFile() && isValidExtension(filePath)) {
+      validFilenames.single.push(f)
+    }
+  }
+
+  function isValidExtension(filepath) {
+    const validExtensions = [".png", ".jpg", ".tiff", ".gif"];
+    const extension = path.extname(filepath).toLowerCase();
+    return validExtensions.includes(extension);
+  }
+
+  function getFilenames(validFilenames, pid) {
+    const regex = new RegExp(`^${pid}`);
+    const file = validFilenames.single.find(d => regex.test(d));
+    if (file) return [file]
+    const folder = validFilenames.folder.find(d => regex.test(d.filename));
+    if (folder) return folder.validSubfiles;
+    return undefined
+  }
 
   const progressBar = new cliProgress.SingleBar({}, cliProgress.Presets.shades_classic);
 
   processMsg("Processing images...");
   let i = 0;
   progressBar.start(metadata.length, i);
-  
+
+  const notFound = [];
+
   for (let e of metadata) {
-    const regex = new RegExp(`^${e.pid}`);
-    const filename = imagesFilenames.find(d => regex.test(d));
-    if (filename === undefined) {
-      console.error(`Couldn't find corresponding image for ${e.pid}`);
+    let filenames =  getFilenames(validFilenames, e.pid);
+
+    if (filenames === undefined) {
+      errorMsg('image',`No image file for ${e.pid}`);
+      notFound.push(e.pid);
+      continue
     }
-    // Check if valid image format
+
     // Podría hacer esto de forma asíncrona?
-    // await createThumbnails(`${dataPath}${imagesFolder}${filename}`, `${thumbsPath}${filename}`);
-    await createIIIFDerivatives(`${dataPath}${imagesFolder}${filename}`, `${derivativesPath}${e.pid}`);
-    const sizes = await createIIIFSizes(`${dataPath}${imagesFolder}${filename}`, `${derivativesPath}${e.pid}`);
-    const { manifestUrl, manifestUrlDev } = await createManifests(e.pid, e.label, sizes[0]);
+    // Se deben crear derivatives y sizes para todas las imágenes
+    let sizes = [];
+    for (let i = 0; i < filenames.length; i++) {
+      const filename = filenames[i];
+      await createIIIFDerivatives(`${dataPath}${imagesFolder}${filename}`, `${derivativesPath}${e.pid}/${i}`, e.pid);
+      const size = (await createIIIFSizes(`${dataPath}${imagesFolder}${filename}`, `${derivativesPath}${e.pid}/${i}`))[0];
+      sizes.push(size);
+    }
+
+    // Solo se crea un manifest
+    const { manifestUrl, manifestUrlDev } = await createManifests(e.pid, e.label, sizes);
 
     e.manifest = manifestUrl;
-    e.manifest_dev = manifestUrlDev;
+    e._manifest = manifestUrlDev;
+    e._images = filenames.length;
 
     i++;
     progressBar.update(i);
@@ -157,11 +193,10 @@ async function batchProcessImages(metadata) {
 
   progressBar.stop();
 
-  return metadata
+  return metadata.filter(d => !notFound.includes(d.pid) )
 }
 
-async function createManifests(pid, label, {width, height}) {
-  // ESTA FUNCION ESTA TERRIBLE, PODRIA HACERLA MUCHO MAS ELEGANTE
+async function createManifests(pid, label, sizes) {
   await mkDir(`${derivativesPath}${pid}/manifest/`);
 
   const folderBase = `${serieConfig.base}${serieConfig.baseurl}/iiif/${pid}/manifest`;
@@ -173,13 +208,16 @@ async function createManifests(pid, label, {width, height}) {
   const manifest = new I3.default.Manifest("3", manifestPath);
   manifest.addLabel(new I3.default.Label("en", [label]));
 
-  const canvas = new I3.default.ItemCanvas(`${folderBase}/canvas-1.json`, width, height);
-  const page = new I3.default.ItemWebAnnotationPage(`${folderBase}/page-1.json`);
-  const image = new I3.default.ItemWebAnnotationImage(`${folderBase}/image-1.json`, "painting", canvas, `${serieConfig.base}${serieConfig.baseurl}/iiif/${pid}/full/max/0/default.jpg`, width, height);
+  for (let i = 0; i < sizes.length; i++) {
+    const {width, height} = sizes[i];
+    const canvas = new I3.default.ItemCanvas(`${folderBase}/canvas-${i}.json`, width, height);
+    const page = new I3.default.ItemWebAnnotationPage(`${folderBase}/page-${i}.json`);
+    const image = new I3.default.ItemWebAnnotationImage(`${folderBase}/image-${i}.json`, "painting", canvas, `${serieConfig.base}${serieConfig.baseurl}/iiif/${pid}/${i}/full/max/0/default.jpg`, width, height);
 
-  page.addItem(image); 
-  canvas.addItem(page);
-  manifest.addItem(canvas);
+    page.addItem(image); 
+    canvas.addItem(page);
+    manifest.addItem(canvas);
+  }
 
   // const JSONstring =  manifest.toJSONString(); // Esta es la función original, pero daña la barra de progreso porque imprime algo en la consola
   const JSONstring =  toJSONString(manifest);
@@ -188,13 +226,18 @@ async function createManifests(pid, label, {width, height}) {
   await fs.writeFile(manifestFile, JSONstring);
 
   const file = editJsonFile(manifestFile);
-  const canvasJSON = file.get("items")[0]; // REVISITAR ESTO CUANDO PUEDA IMPORTAR VARIAS IMÁGENES
-  const pageJSON = canvasJSON.items[0];
-  const imageJSON = pageJSON.items[0];
+  const items = file.get("items");
 
-  await fs.writeFile(`${staticBase}/canvas-1.json`, JSON.stringify(canvasJSON, null, 2));
-  await fs.writeFile(`${staticBase}/page-1.json`, JSON.stringify(pageJSON, null, 2));
-  await fs.writeFile(`${staticBase}/image-1.json`, JSON.stringify(imageJSON, null, 2));
+  // Crear los subarchivos del manifest
+  for (let i = 0; i < items.length; i++) {
+    const canvasJSON = items[i];
+    const pageJSON = canvasJSON.items[0];
+    const imageJSON = pageJSON.items[0];
+
+    await fs.writeFile(`${staticBase}/canvas-${i}.json`, JSON.stringify(canvasJSON, null, 2));
+    await fs.writeFile(`${staticBase}/page-${i}.json`, JSON.stringify(pageJSON, null, 2));
+    await fs.writeFile(`${staticBase}/image-${i}.json`, JSON.stringify(imageJSON, null, 2));
+  }
 
   return { manifestUrl: manifestPath, manifestUrlDev: manifestPathDev}
 }
@@ -233,19 +276,7 @@ async function createIIIFSizes(inputPath, outputFolder) {
   return sizes
 }
 
-async function createThumbnails(inputPath, outputFolder) {
-  await sharp(inputPath).resize({
-    width: 256,
-    height: 256,
-    fit: 'cover'
-  })
-  .jpeg({
-    quality: 80
-  })
-  .toFile(outputFolder); 
-}
-
-async function createIIIFDerivatives(inputPath, outputFolder) {
+async function createIIIFDerivatives(inputPath, outputFolder, pid) {
   // Check if image format is valid
   // {scheme}://{server}{/prefix}/{identifier}/{region}/{size}/{rotation}/{quality}.{format}
   const placeholder = "[[[ROUTE_PLACEHOLDER]]]";
@@ -255,24 +286,23 @@ async function createIIIFDerivatives(inputPath, outputFolder) {
       size: 512,
       layout: "iiif3",
       id: placeholder
-      // id: mode === "dev" ? `${localBase}${serieConfig.baseurl}/iiif` : mode === "local" ? `${localBuild}/docs/iiif` : `${serieConfig.base}${serieConfig.baseurl}/iiif`
     }).toFile(outputFolder, (err, info) => {
       r(info);
     });
   });
 
   const infoFile = `${outputFolder}/info.json`;
-  const infoDevFile = `${outputFolder}/info_dev.json`;
+  const infoDevFile = `${outputFolder}/_info.json`;
 
   await fs.copyFile(infoFile, infoDevFile);
 
   const file = editJsonFile(infoFile);
-  const id = file.get("id").replace(placeholder, `${serieConfig.base}${serieConfig.baseurl}/iiif`);
+  const id = file.get("id").replace(placeholder, `${serieConfig.base}${serieConfig.baseurl}/iiif/${pid}`);
   file.set("id", id);
   file.save();
 
   const fileDev = editJsonFile(infoDevFile);
-  const idDev = fileDev.get("id").replace(placeholder, `${localBase}${serieConfig.baseurl}/iiif`);
+  const idDev = fileDev.get("id").replace(placeholder, `${localBase}${serieConfig.baseurl}/iiif/${pid}`);
   fileDev.set("id", idDev);
   fileDev.save();
 }
@@ -281,16 +311,7 @@ async function copyData() {
   await mkDir(srcConfigPath);
   await fs.copyFile(dataPath + configFile, srcConfigPath + configFile);
 
-  await mkDir(staticDataPath);
-  await fs.copyFile(dataPath + metadataFile, staticDataPath + metadataFile);
-
-  // await mkDir(staticDataPath + imagesFolder);
-  // const imagesFilenames = readdirSync(dataPath + imagesFolder);
-  // for (let e of imagesFilenames) {
-  //   await fs.copyFile(dataPath + imagesFolder + e, staticDataPath + imagesFolder + e);
-  // }
-
-  processMsg("TASK: copied new data");
+  processMsg("TASK: copied config file");
 }
 
 async function mkDir(path) {
@@ -311,8 +332,7 @@ function processMsg(msg) {
   console.log("\x1b[32m%s\x1b[0m", msg);
 }
 
-/// PATCH
-
+// PATCH
 function toJSONString(manifest) {
   // Este es un patch de la función por defecto para exportar el manifest
   // Porque la original muestra en la consola un aviso y daña la barra de avance

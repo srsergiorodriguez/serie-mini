@@ -13,8 +13,7 @@
 </script>
 
 <Page>
-  <SvelteMarkdown source={md} />
-
+  <SvelteMarkdown source={md}/>
   <SearchBar />
-  <Gallery name={"Galería"} metadata={data.metadata} {filters}/>
+  <Gallery metadata={data.metadata} {filters}/>
 </Page>

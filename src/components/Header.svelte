@@ -2,9 +2,11 @@
   import MainMenu from './MainMenu.svelte';
   import serieConfig from '../config/serie.config.js';
   import { base } from '$app/paths';
+
+  const backgroundImage = serieConfig.banner !== undefined ? (/(^http)/.test(serieConfig.banner) ? serieConfig.banner : `${base}/${serieConfig.banner}`) : undefined;
 </script>
 
-<header class="main-header">
+<header class="main-header" style={`background-image: ${ backgroundImage !== undefined ? `url(${backgroundImage})` : "none"};`}>
   <div>
     <h1 class="main-title" id="main-title"><a href={base}>{serieConfig.title}</a></h1>
     <span class="main-subtitle">{serieConfig.subtitle}</span>

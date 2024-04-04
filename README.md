@@ -1,18 +1,19 @@
 # Introducción
 
-Esta es una plantilla, llamada Serie Mini, para la creación de colecciones culturales digitales simples y mínimas. Está pensada como medio educativo en el contexto de las humanidades digitales o como herramienta para proyectos de computación mínima que requieran crear sitios estáticos, livianos y portables.
+Esta es un sistema, llamado Serie Mini, para la creación de colecciones culturales digitales simples y mínimas. Está pensado como medio educativo en el contexto de las artes y humanidades digitales o como herramienta para proyectos culturales de computación mínima que requieran crear sitios estáticos, livianos y portables.
 
-La plantilla permite crear un sitio web con algunas páginas esenciales en una colección cultural digital: una portada, una página de exploración, un recorrido guiado, una página con metadatos, y una página para cada ítem de la colección con un visor de imágenes y una presentación de metadatos. Los sitios generados con Serie Mini pueden publicarse en GitHub pages de forma gratuita por defecto, lo que permite crear colecciones con requerimientos mínimos de recursos económicos y mantenimiento.
+El sistema permite crear un sitio web con algunas páginas esenciales en una colección cultural digital: una portada, una página de exploración, un recorrido guiado, una página con metadatos, y una página para cada ítem de la colección con un visor de imágenes y una presentación de metadatos. Los sitios generados con Serie Mini pueden publicarse en GitHub pages de forma gratuita por defecto, lo que permite crear colecciones con requerimientos mínimos de recursos económicos y mantenimiento.
 
-Serie Mini está pensada para facilitar al máximo la creación de colecciones digitales a personas que están apenas entrando en el tema o en las humanidades digitales en general.
+Serie Mini está pensada para facilitar al máximo la creación de colecciones digitales a personas que están apenas entrando en el tema o en las artes y humanidades digitales en general.
 
-No obstante, esta plantilla también puede ser extendida por personas con un conocimiento más avanzado de programación y diseño web. Concretamente, la plantilla está construida usando Node y el **framework** Svelte de diseño web y componentes personalizados.
+No obstante, estes sistema también puede ser extendido por personas con un conocimiento más avanzado de programación y diseño web. Concretamente, el sistema está construido usando Node y el **framework** Svelte de diseño web y componentes personalizados.
 
-Serie Mini está inspirada fuertemente en otros proyectos similares, especialmente <a href="https://minicomp.github.io/wax/" target="_blank">Wax</a> y <a href="https://collectionbuilder.github.io/" target="_blank">Collection Builder</a>, que siguen principios de <a href="https://go-dh.github.io/mincomp/about/" target="_blank">computación mínima</a> en el campo de las humanidades digitales, pero tiene algunas diferencias:
+Serie Mini está inspirada en otros proyectos similares, especialmente <a href="https://minicomp.github.io/wax/" target="_blank">Wax</a> y <a href="https://collectionbuilder.github.io/" target="_blank">Collection Builder</a>, que siguen principios de <a href="https://go-dh.github.io/mincomp/about/" target="_blank">computación mínima</a> en el campo de las humanidades digitales, pero tiene algunas diferencias:
 
-- Su interfaz y documentación está en español
+- Es bilingüe. Su interfaz funciona en español e inglés.
 - Está pensada para, en la medida de lo posible, ser fácil de usar para principiantes. Así, es mínima pero también simple. Por su simpleza, tiene algunas restricciones artificiales que evitan que los usuarios nuevos se abrumen, pero también es extensible.
 - No utiliza Jekyll como base. Por el contrario, está basada en Node, que es compatible de fábrica con Windows, Linux y Mac, y se usa de la misma forma en todos los sistemas operativos. Esto evita problemas de instalación y compatibilidad, y así no es necesario usar contenedores de Docker u otras maromas.
+- Es extensible. Se pueden añadir nuevas características integrables al sistema de base.
 
 ## Instrucciones de uso
 
@@ -40,11 +41,11 @@ En *la terminal*, copia y pega el siguiente comando: `npm install` y presiona en
 
 ### 4. Preparar metadatos e imágenes
 
-Abre la carpeta "data" contenida dentro de la **carpeta del proyecto** en el explorador de archivos, aquí debes reemplazar el archivo "metadata.csv" por uno que contenga los metadatos de tu colección y debes reemplazar las imágenes contenidas en la carpeta "raw_images" por las que corresponden a tu colección. Puedes usar archivos jpg, png, tiff, y gif. Por el momento Serie Mini solo puede usar una imagen por ítem; la posibilidad de usar múltiples imágenes está en desarrollo.
+Abre la carpeta "data" contenida dentro de la **carpeta del proyecto** en el explorador de archivos, aquí debes reemplazar el archivo "metadata.csv" por uno que contenga los metadatos de tu colección y debes reemplazar las imágenes contenidas en la carpeta "raw_images" por las que corresponden a tu colección. Puedes usar archivos jpg, png, tiff, y gif; o, en el caso de varias imágenes por ítem, puedes crear una carpeta (que debe tener el nombre del pid) con varias imágenes en los formatos válidos (estas imágenes pueden tener cualquier nombre, pero en la presentación se mostrarán por orden alfabético).
 
-:eyes: ***OJO***: es NECESARIO que el archivo csv contenga al menos dos columnas: una llamada "*pid*" (en minúsculas) con un identificador ÚNICO para cada ítem de la colección, y una llamada "*label*" con un título para el ítem. Todas las demás columnas son opcionales y pueden tener los datos que consideres relevantes y siguiendo tus propios protocolos. Revisa el archivo "metadata.csv" que viene por defecto ante las dudas.
+:eyes: ***OJO***: es NECESARIO que el archivo csv contenga al menos dos columnas: una llamada "*pid*" (en minúsculas) con un identificador ÚNICO para cada ítem de la colección, y una llamada "*label*" (en minúsculas) con un título para el ítem. El pid de cada ítem solo puede contener números y letras. Todas las demás columnas son opcionales y pueden tener los datos que consideres relevantes y siguiendo tus propios protocolos (aunque no puedes iniciar el nombre de la columna con un guion bajo '_', está reservado). Revisa el archivo "metadata.csv" que viene por defecto ante las dudas.
 
-:eyes: ***OJO2***: es NECESARIO que las imágenes tengan exactamente (incluyendo mayúsculas y minúsculas) el mismo nombre que el "pid" del ítem al que corresponden. Revisa las imágenes que vienen por defecto en la carpeta "raw_images" ante las dudas.
+:eyes: ***OJO2***: es NECESARIO que las imágenes o la carpeta con múltiples imágenes tengan **EXACTAMENTE** (incluyendo mayúsculas y minúsculas) el mismo nombre que el "pid" del ítem al que corresponden. Revisa las imágenes que vienen por defecto en la carpeta "raw_images" ante las dudas.
 
 ### 5. Crear archivo de configuración.
 
@@ -105,44 +106,64 @@ Luego de hacer esto, GitHub creará un sitio web con la colección. Puede tomar 
 
 ## Opciones para usuarios intermedios
 
-- En el archivo serie.config.js en la carpeta data, puedes modificar el texto que aparecerá como nombre de cada columna de metadatos modificando el objeto "metadataToShow" y el parámetro "label".
+- En el archivo serie.config.js en la carpeta data puedes modificar el texto que aparecerá como nombre de cada columna de metadatos modificando el objeto "metadataToShow" y el parámetro "label" en cada elemento.
+- En el archivo serie.config.js en la carpeta data puedes agregar un parámetro para añadir logos en el footer y uno para añadir una imágen de fondo al encabezado. Para añadir logos, debes incluir el parámetro "logos", y este debe contener una array de objetos. Cada objeto representa un logo y debe tener los siguientes parámetros `{img: RUTA_LOCAL_O_URL_A_IMAGEN, link: ENLACE}`. Para añadir una imagen de fondo al encabezado, debes incluir el parámetro "banner" y darle como valor una ruta local (en la carpeta static o una url a una imagen).
+- En el archivo serie.config.js en la carpeta data puedes modificar el tipo de presentación de cada metadato modificando el objeto "metadataToShow" y el parámetro "type" en cada elemento. El tipo por defecto es "text". Los tipos de presentación posibles son:
 
-## Ruta de trabajo. Elementos por desarrollar
+| Tipo       | Descripción                                                                          |
+|---         |---                                                                                   |
+| text       | Se mostrará el texto del dato tal cual como está en la tabla                         |
+| link       | El dato debe ser una url válida. Se mostrará un enlace cliqueable a tal url          |
+| ref        | Una lista, separada por `/` y sin espacios de pids de otros elementos dentro de la colección. Se mostrará una serie de enlaces que llevan a la página de cada pieza referenciada por pid |
+| image      | El dato debe ser una ruta válida desde la carpeta static a un archivo de imagen o una url externa. Se mostrará la imagen |
+| video     | El dato debe ser una ruta válida desde la carpeta static o una url externa a un archivo de video en un formato válido. El video debe ponerse en esa ruta. Por ejemplo: `video/mi-pelicula.mp4`. Se mostrará un reproductor de video incrustado |
+| audio  | El dato debe ser una ruta válida desde la carpeta static o una url externa a un archivo de audio en un formato válido. El audio debe ponerse en esa ruta. Por ejemplo: `audio/mi-grabacion.wav`. Se mostrará un reproductor de audio incrustado |
+| youtube | El dato debe ser el id de un video de YouTube. Por ejemplo, en el video `https://www.youtube.com/watch?v=VTvluHmL4fY&ab_channel=Automata`, el id es la secuencia de letras y números después de `v=` y, si es el caso, antes del caracter `&`. Así, en el ejemplo, el id es `VTvluHmL4fY`. Se mostrará un reproductor de video de YouTube incrustado. |
+
+## Ruta de trabajo y sostenibilidad del proyecto
 
 Versión actual: 1.0.0
 
-Este es un proyecto en desarrollo. A continuación hay una lista de los elementos desarrollados (y en qué versión) y los elementos por desarrollar para tener una versión relativamente completa de esta plantilla:
+### Características básicas
 
-- [x] Archivo de configuración global (1.0)
-- [x] CLI de instalación (1.0)
-- [x] Buscador de la colección (usa indexado basado en la librería Lunr) (1.0)
-- [x] Procesamiento de imágens (usa la librería Sharp para la producción de derivatives IIIF y thumbnails) (1.0)
-- [x] Visor de imágenes IIIF 3 (usa la librería OpenSeaDragon) (1.0)
-- [x] Previsualización de ítem que lleva a página de ítem. Además hay un método, medio hacky, para insertarlas usando Markdown. (1.0)
-- [x] Soporte Markdown para páginas básicas (usa la librería svelte-markdown) (1.0)
-- [x] Readme con documentación (1.0)
-- [x] Interfaz de galería (1.0)
-- [x] Generación de manifests IIIF para cada imagen (1.0)
-- [ ] Crear derivatives y adaptar el visor para múltiples imágenes por ítem. En este momento solo soporta una.
-- [ ] Crear distintos modos de presentación de los metadatos (texto, número, referencia interna, link, fecha)
-- [ ] Tutorial en video
-- [ ] Interfaz en español e inglés
+A continuación hay una lista de las característcas desarrolladas para la versión 1.0.0 Es decir, la versión básica del sistema:
 
-### Ideas experimentales
+- [x] Readme con documentación en español
+- [x] Archivo de configuración global
+- [x] CLI de instalación bilingüe español inglés
+- [x] Interfaz de sitio web en español e inglés
+- [x] Buscador de la colección (usa indexado basado en la librería Lunr)
+- [x] Procesamiento de imágenes para IIIF 3. Múltiples imágenes por ítem (usa la librería Sharp para la producción de derivatives IIIF y thumbnails)
+- [x] Generación de manifests IIIF para cada imagen (usa la librería digital-piranesi/iiif-manifest-library) (1.0)
+- [x] Visor de imágenes IIIF 3 (usa la librería OpenSeaDragon)
+- [x] Componente de previsualización de ítem hipervinculado a página de ítem
+- [x] Soporte Markdown para edición simplificada de páginas (usa la librería svelte-markdown)
+- [x] Interfaz de galería con filtros de exploración
+- [x] Distintos modos de presentación de los metadatos (texto, link, referencia, video, audio, imagen...)
+- [x] Espacio para banner en el header y logos en el footer
 
-Estas ideas se pueden desarrollar como experimentos y como alternativas para usuarios avanzados:
+### Características adicionales
+
+Serie Mini funciona modularmente, así que se pueden añadir nuevas características y capacidades al sistema básico de colecciones que pueden potenciar las formas de presentación y análisis de los ítems. Debido a que Serie Mini es un proyecto de código abierto e independiente, se requieren recursos, tiempo y experticia para poder llevar a cabo e incluir esas al sistema. Por ese motivo, estoy abierto a donaciones y patrocinios enfocados al desarrollo de ellas. Instituciones o invidividuos interesados pueden aportar al desarrollo de características particulares que sean útiles para sus propios proyectos y esas características se añadirán a la base de código abierto del proyecto para que otros usuarios puedan también usarlas.
+
+Aunque no existe una cantidad específica para el patrocinio, para que el proyecto y desarrollo de características sea sostenible, es ideal que una institución, grupo o individuo patrocinante financie el desarrollo de una característica por completo, es decir, las horas de trabajo aproximadas que implicaría obtener un resultado de producción de la característica. A continuación presento una lista de características que encajan en la ruta de desarrollo del proyecto y un aproximado de horas de desarrollo para cada una de ellas:
 
 - [ ] Visualización de la colección con grafos
+- [ ] Extracción de paletas de color de las imágenes de la colección
+- [ ] Exportación de folleto de la colección en pdf
 - [ ] Visualización de gráfico de dispersión de imágenes al estilo ImagePlot
 - [ ] Mapa de burbujas y grafo en mapa
 - [ ] Paneles interactivos usando Aventura
 - [ ] Línea de tiempo
-- [ ] Diseño simple, pero más bonito
 - [ ] Temas instalables
-- [ ] Reproductor de sonido
-- [ ] Reproductor de video
-- [ ] Visor TEI
+- [ ] Visor de textos anotados en TEI
+  
+A cambio de la donación al proyecto, la institución, grupo o los individuos patrocinantes serán reconocidos públicamente (usando su nombre y logo y especificando el tipo de patrocinio) en este documento y en el footer del sitio de muestra de la colección, y podrán usar la característica desarrollada en sus projectos, así como cualquier otra persona que use la nueva versión del sistema.
+
+### Charlas y talleres
+
+Otra alternativa para apoyar la sostenibilidad del proyecto es la contratación de charlas relacionadas con humanidades digitales y la contrucción de colección o talleres acerca del uso de Serie Mini. El costo de las charlas y talleres se calcula en horas y se acuerda con la institución que lo requiera.
 
 ## Créditos
 
-Esta plantilla es desarrollada por Sergio Rodríguez Gómez. Sigue los principios del código abierto y se ampara en una licencia MIT.
+Este sistema es desarrollado por Sergio Rodríguez Gómez. Sigue los principios del código abierto y se ampara en una licencia MIT.

@@ -1,0 +1,1 @@
+let s=()=>Date.now().toString(36)+Math.random().toString(36).substring(2),e=(r,t)=>r.toSorted((a,o)=>a[t]<o[t]?-1:a[t]>o[t]?1:0);const g=(r,t,a)=>Array.from({length:(t-r)/a+1},(o,n)=>r+n*a);export{g as a,e as s,s as u};

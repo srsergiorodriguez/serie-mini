@@ -7,6 +7,5 @@
     padding: 1em;
     max-width: 1200px;
     margin: auto;
-    min-height: 70vh;
   }
 </style>

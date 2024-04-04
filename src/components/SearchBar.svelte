@@ -1,21 +1,28 @@
 <script>
   import lunr from 'lunr';
   import serieConfig from '../config/serie.config.js';
-  import { blur } from 'svelte/transition';
+  import { fade } from 'svelte/transition';
   import { uniqueId } from '../helpers';
   import { searchIndex } from '../routes/data/searchIndex';
   import { metadata } from '../routes/data/metadata';
   import { base } from '$app/paths';
+  import { t } from '../stores/translations.js';
+
+  import Pager from './Pager.svelte';
 
   const searchBarId = uniqueId();
   const lunarIndex = lunr.Index.load(searchIndex);
   const indexedKeys = serieConfig.pages.metadataToIndex.length <= 0 ? Object.keys(metadata[0]) : serieConfig.pages.metadataToIndex;
 
   let resultsList = undefined;
-
   let searchString = "";
 
+  let page = 0;
+  let perPage = 8;
+  let pagesNr = 0;
+
   function searchTerm(e) {
+    page = 0;
     searchString = e.target.value;
     if (searchString === "") {
       resultsList = [];
@@ -25,11 +32,12 @@
     const searchFormatted = e.target.value;
     const lunrResult = lunarIndex.search(searchFormatted);
     resultsList = lunrResult.map(d  => metadata.find(m => m.pid === d.ref));
+    pagesNr = Math.ceil(resultsList.length / perPage) - 1;
   }
 </script>
 
-<div>
-  <label for="search-bar-{searchBarId}">Buscar: </label>
+<div class="search-bar-container">
+  <label for="search-bar-{searchBarId}">{$t.search}: </label>
   <input
     class="search-bar"
     id="search-bar-{searchBarId}"
@@ -40,14 +48,22 @@
   />
   
   {#if searchString !== ""}
-    <p>{resultsList.length} resultado{resultsList.length > 1 || resultsList.length <= 0 ? "s" : ""}.</p>
+    <p>{resultsList.length} {resultsList.length > 1 || resultsList.length <= 0 ? $t.results.toLowerCase() : $t.result.toLowerCase()}.</p>
+
+    {#if resultsList !== undefined}
+      {#if resultsList.length > perPage}
+        <Pager bind:page bind:perPage {pagesNr}/>
+      {/if}
+    {/if}
 
     <div class="resultsList-preview">
-      {#each resultsList as result}
-        <div transition:blur={{ duration: 300 }} class="result-preview">
-          <div class="result-thumb">
-            <a href="{base}/pages/{result.pid}"><img src="{base}/iiif/{result.pid}/full/256,/0/default.jpg" alt={result.label}/></a>
-          </div>
+      {#each resultsList.slice(page*perPage, (page+1) * perPage) as result (result.pid)}
+        <div transition:fade={{ duration: 300 }} class="result-preview">
+          {#if serieConfig.pages.iiifViewer}
+            <div class="result-thumb">
+              <a href="{base}/pages/{result.pid}"><img src="{base}/iiif/{result.pid}/0/full/256,/0/default.jpg" alt={result.label}/></a>
+            </div>
+          {/if}
           <div class="result-metadata">
             <a class="silent-link" href="{base}/pages/{result.pid}">{result.label}</a>
             <div>
@@ -66,6 +82,11 @@
 <style>
   label {
     font-size: 1.5em;
+  }
+
+  .search-bar-container {
+    border: solid 1px var(--accent1);
+    padding: 1em;
   }
 
   .search-bar {

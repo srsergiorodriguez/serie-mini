@@ -12,5 +12,5 @@ En particular, Serie Mini tiene las siguientes características:
 
 - Interfaz en español
 - Es fácil de instalar (El código está basado en Svelte, no en Jekyll. No requiere contentedores de Docker)
-- Fácil de usar (Tiene una interfaz CLI que guía en el proceso de configuración y todos los elementos de la colección se disponen en una carpeta particular)
-- Fácil de publicar en Github Pages por defecto
+- Es fácil de usar (Tiene una interfaz CLI que guía en el proceso de configuración y todos los elementos de la colección se disponen en una carpeta particular)
+- Es fácil de publicar en Github Pages por defecto

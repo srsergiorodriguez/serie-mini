@@ -1,4 +1,6 @@
 <script>
+  import { t } from '../stores/translations';
+
   export let metadata;
   export let filters;
 
@@ -22,7 +24,8 @@
     for (let i = 0; i < filterList.length; i++) {
       filtered = filtered.filter(d => {
         if (filterList[i] === "") return true
-        return `${d[filters[i]]}`.includes(filterList[i])
+        return `${d[filters[i]]}` === filterList[i];
+        // return `${d[filters[i]]}`.includes(filterList[i])
       })
     }
   }
@@ -38,12 +41,12 @@
 </script>
 
 <div class="filter-container no-select">
-  Filtros:
+  {$t.filters}:
   {#each filters as f, i}
     <div>
       <span>{f}: </span>
       <select id={`selectorFilter_${f}_${i}`} class="selector-filter" on:change={e => setFilter(e, i)}>
-        <option value={""} selected>Todos</option>
+        <option value={""} selected>{$t.all}</option>
         {#each getOptions(f) as fe}
           <option value={fe}>{fe}</option>
         {/each}

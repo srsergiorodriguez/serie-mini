@@ -1,0 +1,21 @@
+{
+  "id": "https://srsergiorodriguez.github.io/serie-mini/iiif/PhilipsGalle/manifest/page-0.json",
+  "items": [
+    {
+      "id": "https://srsergiorodriguez.github.io/serie-mini/iiif/PhilipsGalle/manifest/image-0.json",
+      "items": [],
+      "type": "Annotation",
+      "@context": "http://www.w3.org/ns/anno.jsonld",
+      "motivation": "painting",
+      "target": "https://srsergiorodriguez.github.io/serie-mini/iiif/PhilipsGalle/manifest/canvas-0.json",
+      "body": {
+        "id": "https://srsergiorodriguez.github.io/serie-mini/iiif/PhilipsGalle/0/full/max/0/default.jpg",
+        "type": "Image",
+        "format": "image/jpeg",
+        "height": 5704,
+        "width": 3852
+      }
+    }
+  ],
+  "type": "AnnotationPage"
+}

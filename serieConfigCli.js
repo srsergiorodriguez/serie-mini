@@ -7,56 +7,80 @@ const dataPath = "./data/";
 const metadataFile = "metadata.csv";
 const configFile = "serie.config.js";
 
-function getQuestions(keys) {
+function getQuestions(lang, keys) {
   const questions = [
     {
       type: 'input',
-      name: 'Usuario GitHub',
-      message: 'Nombre de usuario de GitHub en donde alojarás la colección:'
+      name: 'username',
+      message: {
+        es: 'Nombre de usuario de GitHub en donde alojarás la colección:',
+        en: 'GitHub username:'
+      }
     },
     {
       type: 'input',
-      name: 'Nombre Repositorio',
-      message: 'Nombre del repositorio que alojará la colección:',
+      name: 'repo',
+      message: {
+        es: 'Nombre del repositorio que alojará la colección:',
+        en: 'Name of the repository that will host the collection:'
+      },
       default: 'serie-mini'
     },
     {
       type: 'input',
-      name: 'Título',
-      message: 'Título de la colección (aparecerá en el encabezado del sitio web):',
+      name: 'title',
+      message: {
+        es: 'Título de la colección (aparecerá en el encabezado del sitio web):',
+        en: 'Title of the collection (it will appear in the header of the website):'
+      },
       default: 'Serie Mini'
     },
     {
       type: 'input',
-      name: 'Subtítulo',
-      message: 'Subtítulo de la colección (aparecerá en una fuente pequeña, en el encabezado del sitio web):',
+      name: 'subtitle',
+      message: {
+        es: 'Subtítulo de la colección (aparecerá en una fuente pequeña en el encabezado del sitio web):',
+        en: 'Subtitle of the collection (it will appear in a smaller font in the header of the website):'
+      },
       default: 'Una plataforma para mini colecciones digitales'
     },
     {
       type: 'input',
-      name: 'Créditos',
-      message: 'Mensaje de los créditos (por ejemplo, tu nombre. Aparecerá en el pie de página del sitio web):',
-      default: 'Por Sergio Rodríguez Gómez. Hecho con Serie Mini'
+      name: 'credits',
+      message: {
+        es: 'Mensaje de los créditos (por ejemplo, tu nombre. Aparecerá en el pie de página del sitio web):',
+        en: 'Text to show in credits (for instance, your name. It will appear in the footer of the website):'
+      },
+      default: 'Por Sergio Rodríguez Gómez'
     },
     {
       type: 'input',
-      name: 'Mensaje Copyright',
-      message: 'Mensaje de copyright (aparecerá en el pie de página del sitio web):',
+      name: 'copyright',
+      message: {
+        es: 'Mensaje de copyright (aparecerá en el pie de página del sitio web):',
+        en: 'Copyright text (it will appear in the footer of the website):'
+      },
       default: "Todos los derechos reservados, " + new Date().getFullYear()
     },
     {
       type: 'checkbox',
-      name: 'Metadatos para mostrar',
-      message: 'Selecciona qué metadatos mostrar en la página de cada ítem de la colección:',
+      name: 'metadataToShow',
+      message: {
+        es: 'Selecciona qué metadatos mostrar en la página de cada ítem de la colección:',
+        en: "Select what metadata to show in an item's page"
+      },
       choices: keys
     },
     {
       type: 'checkbox',
-      name: 'Metadatos buscables',
-      message: 'Selecciona qué metadatos indexar en el buscador (es decir, qué datos quieres que sean buscables dentro de la colección):',
+      name: 'metadataToIndex',
+      message: {
+        es: 'Selecciona qué metadatos indexar en el buscador (es decir, qué datos quieres que sean buscables dentro de la colección):',
+        es: 'Select what metadata to index for search (what metadata to make searchable in the search bar)'
+      },
       choices: keys
     },
-  ]
+  ].map(d => ({...d, message: d.message[lang]}));
 
   return questions
 }
@@ -64,31 +88,62 @@ function getQuestions(keys) {
 startConfig();
 
 async function startConfig() {
+
+  let selectedLang = "es";
+  const language = await inquirer.prompt({
+    type: 'list',
+    name: 'lang',
+    message: 'Selecciona idioma / Select language',
+    choices: [ 'Español', 'English' ]
+  });
+
+  if (language.lang === 'Español') {
+    selectedLang = 'es';
+  } else if (language.lang === 'English') {
+    selectedLang = 'en';
+  }
+
   const metadata = await parseMetadata();
   const keys = Object.keys(metadata[0]);
-  const questions = getQuestions(keys);
+  const questions = getQuestions(selectedLang, keys);
 
-  msg("\nEste programa de Serie Mini te guiará paso a paso en la configuración de tu colección. Responde las siguientes preguntas...\n", "blue");
-
+  msg(
+    {
+      es: "\nEste programa de Serie Mini te guiará paso a paso en la configuración de tu colección. Responde las siguientes preguntas...\n",
+      en: "\nThis program will guide you step by step in the configuration of your collection. Answer the following questions...\n"
+    }[selectedLang], "blue");
   const answers = await inquirer.prompt(questions);
 
-  msg("\nEstas fueron tus configuraciones: \n", "blue");
+  msg({
+    es: "\nEstas fueron tus configuraciones elegidas: \n",
+    en: "\nThese are the settings you selected:\n"
+  }[selectedLang],"blue");
   console.log(answers);
 
   const confirmanswer = await inquirer.prompt({
     type: 'list',
     name: 'confirm',
-    message: '¿Son correctas?',
-    choices: [ 'Sí', 'No' ]
+    message: {
+      es: '¿Son correctas?',
+      en: 'Are they correct?'
+    }[selectedLang],
+    choices: {
+      es: [ 'Sí', 'No' ],
+      en: [ 'Yes', 'No' ]
+    }[selectedLang]
   });
 
   if (confirmanswer.confirm === "No") {
-    msg("\nEmpecemos de nuevo\n", "red");
+    msg(
+      {
+        es: "\nEmpecemos de nuevo\n",
+        en: "\nLet's start over again\n"
+      }[selectedLang],"red");
     startConfig();
     return
   }
 
-  const config = formatConfig(answers);
+  const config = formatConfig(selectedLang, answers);
 
   await fs.writeFile(`${dataPath}${configFile}`, `const config = ${JSON.stringify(config, null, 2)};\nexport default config;`, (err) => {
     if (err) {
@@ -98,24 +153,24 @@ async function startConfig() {
   });
 }
 
-function formatConfig(answers) {
+function formatConfig(lang, answers) {
   const firstUppercase = (str) => str.charAt(0).toUpperCase() + str.slice(1);
 
   const config = {
-    lang: "es",
+    lang: lang,
     localPort: "5173",
-    base: `https://${answers["Usuario GitHub"]}.github.io`,
-    baseurl: `/${answers["Nombre Repositorio"]}`,
-    title: answers["Título"],
-    subtitle: answers["Subtítulo"],
-    credits: answers["Créditos"],
-    copyright: answers["Mensaje Copyright"],
+    base: `https://${answers.username}.github.io`,
+    baseurl: `/${answers.repo}`,
+    title: answers.title,
+    subtitle: answers.subtitle,
+    credits: answers.credits,
+    copyright: answers.copyright,
     pages: {
       iiifViewer: true,
-      metadataToShow: answers["Metadatos para mostrar"].map(d => {
+      metadataToShow: answers.metadataToShow.map(d => {
         return { key: d, label: firstUppercase(d), type: "text"}
       }),
-      metadataToIndex: answers["Metadatos buscables"]
+      metadataToIndex: answers.metadataToIndex
     }
   }
 
@@ -133,34 +188,40 @@ function msg(msg, color = "red") {
 }
 
 async function parseMetadata() {
-  const results = [];
+  const metadata = [];
   await new Promise(r => {
     createReadStream(dataPath + metadataFile)
       .pipe(csvParser())
-      .on('data', data => results.push(data))
-      .on('end', () => r(results))
+      .on('data', data => metadata.push(data))
+      .on('end', () => r(metadata))
   });
 
   // VALIDATION
+  // Incorrect pid or label
+  if (metadata[0].pid === undefined || metadata[0].label === undefined) {
+    errorMsg("metadata", "Los metadatos no tienen pid o label (minúsculas) / Metadata doesn't have pid or label (lowercase)");
+    process.exit(1);
+  } 
+
   // Empty metadata
-  if (results.length <= 0) {
-    errorMsg("metadata", "Metadata is empty / Los metadatos están vacíos");
+  if (metadata.length <= 0) {
+    errorMsg("metadata", "Los metadatos están vacíos / Metadata is empty");
     process.exit(1);
   }
 
   // Unique pids
-  if ([...new Set(results.map(d => d.pid))].length !== results.length) {
-    errorMsg("metadata", "There are non unique pids / Hay pids que no son únicos");
+  if ([...new Set(metadata.map(d => d.pid))].length !== metadata.length) {
+    errorMsg("metadata", "Hay pids que no son únicos / There are non unique pids");
     process.exit(1);
   }
 
   // Has pids and labels
-  for (let e of results) {
+  for (let e of metadata) {
     if (e.pid === undefined || e.label === undefined) {
-      errorMsg("metadata", "There are rows without pids or labels / Hay filas sin pids o labels");
+      errorMsg("metadata", "Hay filas sin pids o labels / There are rows without pids or labels");
       process.exit(1);
     }
-  }
+  }  
 
-  return results
+  return metadata
 }

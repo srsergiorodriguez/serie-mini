@@ -1,0 +1,30 @@
+{
+  "id": "https://srsergiorodriguez.github.io/serie-mini/iiif/JohannSadeler/manifest/canvas-0.json",
+  "items": [
+    {
+      "id": "https://srsergiorodriguez.github.io/serie-mini/iiif/JohannSadeler/manifest/page-0.json",
+      "items": [
+        {
+          "id": "https://srsergiorodriguez.github.io/serie-mini/iiif/JohannSadeler/manifest/image-0.json",
+          "items": [],
+          "type": "Annotation",
+          "@context": "http://www.w3.org/ns/anno.jsonld",
+          "motivation": "painting",
+          "target": "https://srsergiorodriguez.github.io/serie-mini/iiif/JohannSadeler/manifest/canvas-0.json",
+          "body": {
+            "id": "https://srsergiorodriguez.github.io/serie-mini/iiif/JohannSadeler/0/full/max/0/default.jpg",
+            "type": "Image",
+            "format": "image/jpeg",
+            "height": 3826,
+            "width": 4712
+          }
+        }
+      ],
+      "type": "AnnotationPage"
+    }
+  ],
+  "type": "Canvas",
+  "width": 4712,
+  "height": 3826,
+  "annotations": []
+}
