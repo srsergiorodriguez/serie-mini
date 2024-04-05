@@ -98,7 +98,7 @@ Adicional al formato tradicional de Markdown, puedes incrustar en las páginas T
 
 ### 8. Publicar el sitio
 
-Una vez tengas una versión terminada del sitio lista para publicar, copia y pega este código en la terminal: `npm run build:production` y presiona enter. Esto creará una versión publicable del sitio en la carpeta "docs" dentro de la **carpeta del proyecto**. Ahora visita tu repositorio en el sitio web de GitHub (no olvides loggearte), haz clic en el botón "Settings" y, luego, en la columna izquierda, haz clic en "Pages". Allí, selecciona, justo debajo de la opción "Branch", lo siguiente: en el selector que dice "None", selecciona "main". Y en el nuevo selector que aparecerá, selecciona "/docs". Esto le indica a Github que tu página para publicar está en la carpeta "docs".
+Una vez tengas una versión terminada del sitio lista para publicar, copia y pega este código en la terminal: `npm run build` y presiona enter. Esto creará una versión publicable del sitio en la carpeta "docs" dentro de la **carpeta del proyecto**. Ahora visita tu repositorio en el sitio web de GitHub (no olvides loggearte), haz clic en el botón "Settings" y, luego, en la columna izquierda, haz clic en "Pages". Allí, selecciona, justo debajo de la opción "Branch", lo siguiente: en el selector que dice "None", selecciona "main". Y en el nuevo selector que aparecerá, selecciona "/docs". Esto le indica a Github que tu página para publicar está en la carpeta "docs".
 
 Luego de hacer esto, GitHub creará un sitio web con la colección. Puede tomar unos minutos en terminar. Una vez esté completo, podrás visitar el sitio en un enlace con este formato: `https://TU_NOMBRE_DE_USUARIO.github.io/TU_REPOSITORIO/`.
 
@@ -144,25 +144,25 @@ A continuación hay una lista de las característcas desarrolladas para la versi
 
 ### Características adicionales
 
-Serie Mini funciona modularmente, así que se pueden añadir nuevas características y capacidades al sistema básico de colecciones que pueden potenciar las formas de presentación y análisis de los ítems. Debido a que Serie Mini es un proyecto de código abierto e independiente, se requieren recursos, tiempo y experticia para poder llevar a cabo e incluir esas al sistema. Por ese motivo, estoy abierto a donaciones y patrocinios enfocados al desarrollo de ellas. Instituciones o invidividuos interesados pueden aportar al desarrollo de características particulares que sean útiles para sus propios proyectos y esas características se añadirán a la base de código abierto del proyecto para que otros usuarios puedan también usarlas.
+Serie Mini funciona modularmente, así que se pueden añadir nuevas características y capacidades al sistema básico de colecciones que pueden potenciar las formas de presentación y análisis de los ítems. Debido a que Serie Mini es un proyecto de código abierto e independiente, se requieren recursos, tiempo y experticia para poder llevar a cabo e incluir esas al sistema. Por ese motivo, estoy abierto a donaciones y patrocinios enfocados al desarrollo de ellas. Instituciones o individuos interesados pueden aportar al desarrollo de características particulares que sean útiles para sus propios proyectos y esas características se añadirán a la base de código abierto del proyecto para que otros usuarios puedan también usarlas.
 
-Aunque no existe una cantidad específica para el patrocinio, para que el proyecto y desarrollo de características sea sostenible, es ideal que una institución, grupo o individuo patrocinante financie el desarrollo de una característica por completo, es decir, las horas de trabajo aproximadas que implicaría obtener un resultado de producción de la característica. A continuación presento una lista de características que encajan en la ruta de desarrollo del proyecto y un aproximado de horas de desarrollo para cada una de ellas:
+Aunque no existe una cantidad específica para el patrocinio, para que el proyecto y desarrollo de características sea sostenible, es ideal que una institución, grupo o individuo patrocinante financie el desarrollo de una característica por completo, es decir, las horas de trabajo aproximadas que implicaría obtener un resultado de producción de la característica. A continuación presento una lista de posibles características que encajan en la ruta de desarrollo del proyecto:
 
+- [ ] Exportación de folleto de la colección en pdf
+- [ ] Visor de textos anotados en TEI
 - [ ] Visualización de la colección con grafos
 - [ ] Extracción de paletas de color de las imágenes de la colección
-- [ ] Exportación de folleto de la colección en pdf
 - [ ] Visualización de gráfico de dispersión de imágenes al estilo ImagePlot
 - [ ] Mapa de burbujas y grafo en mapa
 - [ ] Paneles interactivos usando Aventura
 - [ ] Línea de tiempo
 - [ ] Temas instalables
-- [ ] Visor de textos anotados en TEI
-  
-A cambio de la donación al proyecto, la institución, grupo o los individuos patrocinantes serán reconocidos públicamente (usando su nombre y logo y especificando el tipo de patrocinio) en este documento y en el footer del sitio de muestra de la colección, y podrán usar la característica desarrollada en sus projectos, así como cualquier otra persona que use la nueva versión del sistema.
+
+A cambio de la donación al proyecto, la institución, grupo o individuos patrocinantes serán reconocidos públicamente (usando su nombre y logo y especificando el tipo de patrocinio) en este documento y en el *footer* del sitio de muestra de la colección, y podrán usar la característica desarrollada en sus projectos, así como cualquier otra persona que use la nueva versión del sistema.
 
 ### Charlas y talleres
 
-Otra alternativa para apoyar la sostenibilidad del proyecto es la contratación de charlas relacionadas con humanidades digitales y la contrucción de colección o talleres acerca del uso de Serie Mini. El costo de las charlas y talleres se calcula en horas y se acuerda con la institución que lo requiera.
+Otra alternativa para apoyar la sostenibilidad del proyecto es la contratación de charlas relacionadas con humanidades digitales y la construcción de colección o talleres acerca del uso de Serie Mini. El costo de las charlas y talleres se calcula en horas y se acuerda con la institución que lo requiera.
 
 ## Créditos
 
