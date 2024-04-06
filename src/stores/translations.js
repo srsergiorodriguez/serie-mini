@@ -10,7 +10,7 @@ const translations = {
   download: {es: "Descargar", en: "Download"},
   search: {es: "Buscar", en: "Search"},
   result: {es: "Resultado", en: "Result"},
-  results: {es: "Resutados", en: "Results"},
+  results: {es: "Resultados", en: "Results"},
   filters: {es: "Filtros", en: "Filters"},
   all: {es: "Todos", en: "All"},
   page: {es: "Página", en: "Page"},
