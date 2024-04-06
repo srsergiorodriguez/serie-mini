@@ -53,13 +53,13 @@
   .preview-item {
     display: flex;
     flex-direction: column;
-    max-width: 256px;
-    max-height: 256px;
+    width: 256px;
+    text-align: center;
   }
 
   .preview-item img {
-    width: 256px;
-    height: 200px;
+    max-width: 256px;
+    max-height: 200px;
     object-fit: cover;
     object-position: 100% 0;
   }
