@@ -24,8 +24,8 @@
     for (let i = 0; i < filterList.length; i++) {
       filtered = filtered.filter(d => {
         if (filterList[i] === "") return true
-        return `${d[filters[i]]}` === filterList[i];
-        // return `${d[filters[i]]}`.includes(filterList[i])
+        // return `${d[filters[i]]}` === filterList[i];
+        return `${d[filters[i]]}`.includes(filterList[i])
       })
     }
   }
