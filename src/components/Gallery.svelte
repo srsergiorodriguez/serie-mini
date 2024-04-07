@@ -9,18 +9,23 @@
 
   export let metadata;
   export let filters;
+  let changed = false;
 
   let filtered = metadata;
 
   let perPage = 28;
   let page = 0;
   let pagesNr = Math.ceil(filtered.length / perPage) - 1;
+  $: if (changed) {
+    page = 0
+    changed = false;
+  }
   
 </script>
 
 <h2>{$t.gallery}</h2>
 
-<Filter bind:filtered {metadata} {filters} />
+<Filter bind:filtered {metadata} {filters} bind:changed/>
 
 {#if filtered.length > perPage}
   <Pager bind:page bind:perPage {pagesNr}/>

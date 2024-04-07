@@ -3,6 +3,7 @@
 
   export let metadata;
   export let filters;
+  export let changed = false;
 
   export let filtered = metadata;
 
@@ -20,6 +21,7 @@
   }
 
   function applyFilter() {
+    changed = true;
     filtered = metadata;
     for (let i = 0; i < filterList.length; i++) {
       filtered = filtered.filter(d => {
