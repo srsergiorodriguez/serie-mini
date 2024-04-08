@@ -120,6 +120,18 @@ Luego de hacer esto, GitHub creará un sitio web con la colección. Puede tomar 
 | audio  | El dato debe ser una ruta válida desde la carpeta static o una url externa a un archivo de audio en un formato válido. El audio debe ponerse en esa ruta. Por ejemplo: `audio/mi-grabacion.wav`. Se mostrará un reproductor de audio incrustado |
 | youtube | El dato debe ser el id de un video de YouTube. Por ejemplo, en el video `https://www.youtube.com/watch?v=VTvluHmL4fY&ab_channel=Automata`, el id es la secuencia de letras y números después de `v=` y, si es el caso, antes del caracter `&`. Así, en el ejemplo, el id es `VTvluHmL4fY`. Se mostrará un reproductor de video de YouTube incrustado. |
 
+- Las siguientes son las funciones de comando disponibles en Serie Mini
+
+| Comando                | Acción |
+|---                  |---     |
+| npm run config      | Inicia la interfaz CLI de configuración del proyecto. Usar este comando cuando se crea el proyecto por primera vez |
+| npm run clear       | Elimina la carpeta con derivatives IIIF |
+| npm run tasks       | Elimina la carpeta con derivatives IIIF, actualiza los metadatos, el índice de búsqueda, la presentación basada en la configuración y crea nuevos derivatives desde cero |
+| npm run dev         | Elimina la carpeta con derivatives IIIF, actualiza los metadatos, el índice de búsqueda, la presentación basada en la configuración  crea nuevos derivatives desde cero e inicia el servidor local de prueba. Usar este comando cuando se crea la colección por primera vez |
+| npm run preview     | Inicia el servidor local de prueba sin modificar los metadatos o derivatives de la colección y sin actualizar la presentación basada en la configuración. Usar este comando cuando solo se quiere modificar el contenido o la apariencia del sitio |
+| npm run update      | Actualiza los metadatos, y crea derivatives solo para nuevos ítems. Este commando evita tiempo de procesamiento cuando solo se quiere extender la colección con más elementos o actualizar la presentación basada en el archivo de configuración |
+| npm run build       | Crea una versión de producción. Usar este comando cuando se quiere publicar una nueva versión del sitio |
+
 ## Ruta de trabajo y sostenibilidad del proyecto
 
 Versión actual: 1.0.0

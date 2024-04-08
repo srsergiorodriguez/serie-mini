@@ -11,6 +11,16 @@ import csvParser from 'csv-parser';
 import { createReadStream, readdirSync, existsSync } from 'fs';
 import serieConfig from './data/serie.config.js';
 
+let clearDerivativesFolder = false;
+if (process.argv.indexOf('-c') > -1) {
+  clearDerivativesFolder = true;
+}
+
+let createDerivatives = false;
+if (process.argv.indexOf('-d') > -1) {
+  createDerivatives = true;
+}
+
 const localBase = `http://localhost:${serieConfig.localPort}`;
 
 const configFile = "serie.config.js";
@@ -28,21 +38,22 @@ main();
 
 async function main() {
   // Delete the IIIF derivatives folder
-  await deleteCopiedData();
+  if (clearDerivativesFolder) {
+    await deleteCopiedData();
+  }
 
   // Copy the config file to use its data in svelte
   await copyData();
 
-  // Create the Collection: IIIF derivatives and adjunts metadata
-  await createCollection();
+  if (createDerivatives) {
+    // Create the Collection: IIIF derivatives and adjunts metadata
+    await createCollection();
+  }
 }
 
 async function deleteCopiedData() {
   if (existsSync(derivativesPath)) {
     await fs.rm(derivativesPath, { recursive: true, force: true }, () => {});
-  }
-  if (existsSync(srcConfigPath)) {
-    await fs.rm(srcConfigPath, { recursive: true, force: true }, () => {});
   }
   processMsg("TASK: deleted previous files");
 }
@@ -116,6 +127,7 @@ async function createMetadataJS(metadata) {
 async function batchProcessImages(metadata) {
   await mkDir(derivativesPath);
 
+  // GET VALID FILENAMES OF IMAGES
   const imagesFilenames = readdirSync(dataPath + imagesFolder);
   const validFilenames = {single: [], folder: []};
   for (let f of imagesFilenames) {
@@ -161,17 +173,34 @@ async function batchProcessImages(metadata) {
 
   const notFound = [];
 
-  for (let e of metadata) {
-    let filenames =  getFilenames(validFilenames, e.pid);
+  const derivativesFolderFilenames = readdirSync(derivativesPath);
 
-    if (filenames === undefined) {
-      errorMsg('image',`No image file for ${e.pid}`);
-      notFound.push(e.pid);
+  for (let e of metadata) {
+    progressBar.update(i + 1);
+
+    // Ya existe una carpeta de derivatives
+    if (derivativesFolderFilenames.includes(e.pid)) {
+      const manifest = editJsonFile(`${derivativesPath}/${e.pid}/manifest/manifest.json`);
+      e._images = manifest.get("items").length;
+      const { manifestUrl, manifestUrlDev } = getManifestUrls(e.pid);
+      e.manifest = manifestUrl;
+      e._manifest = manifestUrlDev;
       continue
     }
 
-    // Podría hacer esto de forma asíncrona?
-    // Se deben crear derivatives y sizes para todas las imágenes
+    // No existen imágenes para crear derivatives
+    let filenames = getFilenames(validFilenames, e.pid);
+    if (filenames === undefined) {
+      errorMsg('image',`No image file for ${e.pid}`);
+      notFound.push(e.pid);
+      e._images = 0;
+      const { manifestUrl, manifestUrlDev } = await createManifests(e.pid, e.label, []);
+      e.manifest = manifestUrl;
+      e._manifest = manifestUrlDev;
+      continue
+    }
+
+    // Crear nuevas derivatives
     let sizes = [];
     for (let i = 0; i < filenames.length; i++) {
       const filename = filenames[i];
@@ -180,7 +209,7 @@ async function batchProcessImages(metadata) {
       sizes.push(size);
     }
 
-    // Solo se crea un manifest
+    // Solo se crea un manifest aunque haya varias imágenes
     const { manifestUrl, manifestUrlDev } = await createManifests(e.pid, e.label, sizes);
 
     e.manifest = manifestUrl;
@@ -188,12 +217,18 @@ async function batchProcessImages(metadata) {
     e._images = filenames.length;
 
     i++;
-    progressBar.update(i);
   }
 
   progressBar.stop();
 
-  return metadata.filter(d => !notFound.includes(d.pid) )
+  return metadata //.filter(d => !notFound.includes(d.pid) )
+}
+
+function getManifestUrls(pid) {
+  const folderBase = `${serieConfig.base}${serieConfig.baseurl}/iiif/${pid}/manifest`;
+  const manifestPath = `${folderBase}/manifest.json`;
+  const manifestPathDev = `${localBase}${serieConfig.baseurl}/iiif/${pid}/manifest/manifest.json`;
+  return { manifestUrl: manifestPath, manifestUrlDev: manifestPathDev}
 }
 
 async function createManifests(pid, label, sizes) {
@@ -308,6 +343,10 @@ async function createIIIFDerivatives(inputPath, outputFolder, pid) {
 }
 
 async function copyData() {
+  if (existsSync(srcConfigPath)) {
+    await fs.rm(srcConfigPath, { recursive: true, force: true }, () => {});
+  }
+
   await mkDir(srcConfigPath);
   await fs.copyFile(dataPath + configFile, srcConfigPath + configFile);
 
@@ -315,6 +354,7 @@ async function copyData() {
 }
 
 async function mkDir(path) {
+  if (existsSync(path)) return
   try {
     await fs.mkdir(path, {recursive: true});
   } catch (error) {

@@ -4,10 +4,11 @@
 	"private": true,
 	"scripts": {
 		"config": "node serieConfigCli.js",
-		"tasks": "node serieRunTasks.js",
+		"clear": "node serieRunTasks.js -c",
+		"tasks": "node serieRunTasks.js -c -d",
+		"dev": "node serieRunTasks.js -c -d dev && vite dev",
 		"preview": "vite dev",
-		"dev": "node serieRunTasks.js dev && vite dev",
-		"build:production": "vite build",
+		"update": "node serieRunTasks.js -d",
 		"build": "vite build"
 	},
 	"devDependencies": {

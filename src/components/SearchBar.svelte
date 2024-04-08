@@ -59,7 +59,7 @@
     <div class="resultsList-preview">
       {#each resultsList.slice(page*perPage, (page+1) * perPage) as result (result.pid)}
         <div transition:fade={{ duration: 300 }} class="result-preview">
-          {#if serieConfig.pages.iiifViewer}
+          {#if serieConfig.pages.iiifViewer && result._images > 0}
             <div class="result-thumb">
               <a href="{base}/pages/{result.pid}"><img src="{base}/iiif/{result.pid}/0/full/256,/0/default.jpg" alt={result.label}/></a>
             </div>
