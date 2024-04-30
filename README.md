@@ -172,6 +172,8 @@ Aunque no existe una cantidad específica para el patrocinio, para que el proyec
 
 A cambio de la donación al proyecto, la institución, grupo o individuos patrocinantes serán reconocidos públicamente (usando su nombre y logo y especificando el tipo de patrocinio) en este documento y en el *footer* del sitio de muestra de la colección, y podrán usar la característica desarrollada en sus projectos, así como cualquier otra persona que use la nueva versión del sistema.
 
+Adicionalmente, individuos interesados pueden donar usando los enlaces de [Ko-fi](ko-fi.com/srsergior) y [Buy me a Coffee](buymeacoffee.com/srsergior).
+
 ### Charlas y talleres
 
 Otra alternativa para apoyar la sostenibilidad del proyecto es la contratación de charlas relacionadas con humanidades digitales y la construcción de colección o talleres acerca del uso de Serie Mini. El costo de las charlas y talleres se calcula en horas y se acuerda con la institución que lo requiera.

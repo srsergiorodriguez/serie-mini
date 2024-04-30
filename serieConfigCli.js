@@ -76,7 +76,7 @@ function getQuestions(lang, keys) {
       name: 'metadataToIndex',
       message: {
         es: 'Selecciona qué metadatos indexar en el buscador (es decir, qué datos quieres que sean buscables dentro de la colección):',
-        es: 'Select what metadata to index for search (what metadata to make searchable in the search bar)'
+        en: 'Select what metadata to index for search (what metadata to make searchable in the search bar)'
       },
       choices: keys
     },
@@ -224,4 +224,8 @@ async function parseMetadata() {
   }  
 
   return metadata
+}
+
+function errorMsg(type, msg) {
+  console.error("\x1b[41m\x1b[30m%s\x1b[0m",`${type.toUpperCase()} ERROR: ${msg}`);
 }
