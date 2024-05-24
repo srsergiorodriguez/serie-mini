@@ -43,7 +43,7 @@ En *la terminal*, copia y pega el siguiente comando: `npm install` y presiona en
 
 ### 4. Preparar metadatos e imágenes
 
-Abre la carpeta "data" contenida dentro de la **carpeta del proyecto** en el explorador de archivos, aquí debes reemplazar el archivo "metadata.csv" por uno que contenga los metadatos de tu colección y debes reemplazar las imágenes contenidas en la carpeta "raw_images" por las que corresponden a tu colección. Puedes usar archivos jpg, png, tiff, y gif; o, en el caso de varias imágenes por ítem, puedes crear una carpeta (que debe tener el nombre del pid) con varias imágenes en los formatos válidos (estas imágenes pueden tener cualquier nombre, pero en la presentación se mostrarán por orden alfabético).
+Abre la carpeta "data" contenida dentro de la **carpeta del proyecto** en el explorador de archivos, aquí debes reemplazar el archivo "metadata.csv" por uno que contenga los metadatos de tu colección y debes reemplazar las imágenes contenidas en la carpeta "raw_images" por las que corresponden a tu colección, cada imagen debe nombrarse con un pid (identificador personal único) que corresponda a una fila en tu archivo de metadatos. Puedes usar archivos jpg, png, tiff, y gif; o, en el caso de varias imágenes por ítem, puedes crear una carpeta (que debe tener el nombre del pid) con varias imágenes en los formatos válidos (estas imágenes pueden tener cualquier nombre, pero en la presentación se mostrarán por orden alfabético).
 
 :eyes: ***OJO***: es NECESARIO que el archivo csv contenga al menos dos columnas: una llamada "*pid*" (en minúsculas) con un identificador ÚNICO para cada ítem de la colección, y una llamada "*label*" (en minúsculas) con un título para el ítem. El pid de cada ítem solo puede contener números y letras. Todas las demás columnas son opcionales y pueden tener los datos que consideres relevantes y siguiendo tus propios protocolos (aunque no puedes iniciar el nombre de la columna con un guion bajo '_', está reservado). Revisa el archivo "metadata.csv" que viene por defecto ante las dudas.
 
@@ -51,7 +51,7 @@ Abre la carpeta "data" contenida dentro de la **carpeta del proyecto** en el exp
 
 ### 5. Crear archivo de configuración.
 
-En **la terminal**, copia y pega el siguiente comando `npm run config` y presiona enter. Se iniciará una **interfaz de configuración** en **la terminal** que te guiará en el proceso de creación del sitio de tu colección. La información que te pedirá **interfaz de configuración** es la siguiente:
+En **la terminal**, copia y pega el siguiente comando `npm run config` y presiona enter. Se iniciará una **interfaz de configuración** en **la terminal** que te guiará en el proceso de creación del sitio de tu colección. La información que te pedirá la **interfaz de configuración** es la siguiente:
 
 | Configuración          | Descripción                                                                                  |
 |---                     |---                                                                                           |
@@ -61,18 +61,18 @@ En **la terminal**, copia y pega el siguiente comando `npm run config` y presion
 | Mensaje créditos       | Mensaje que aparecerá en el footer con los créditos. Por ejemplo, tu nombre o nombre de organización |
 | Mensaje copyright      | Mensaje de derechos de autor que aparecerá en el footer. Por defecto, "Todos los derechos reservados" |
 | Mensaje créditos       | Mensaje que aparecerá en el footer con los créditos. Por ejemplo, tu nombre o nombre de organización|
-| Metadatos para mostrar | Lista de las columnas metadatos que se mostrarán en la página de cada ítem de la colección                |
-| Metadatos para indexar | Lista de las columnas metadatos que indexarán en el buscador. Solo estos metadatos se podrán buscar en la interfaz de explorar. Si no escoges niguno se indexarán TODOS |
+| Metadatos para mostrar | Lista de las columnas de metadatos que se mostrarán en la página de cada ítem de la colección                |
+| Metadatos para indexar | Lista de las columnas de metadatos que indexarán en el buscador. Solo estos metadatos se podrán buscar en la interfaz de explorar. Si no escoges niguno se indexarán TODOS |
 
 :eyes: ***OJO***: Asegúrate de haber preparado la tabla de metadatos antes de hacer la configuración. Algunas de las preguntas de la **interfaz de configuración** usan esa tabla. Luego puedes añadir nuevos ítems (filas) a la tabla sin problemas, pero deberás correr de nuevo la **interfaz de configuració** si quieres que se presenten esos nuevas columnas en las páginas de ítems o que sean indexados en el buscador.
 
-:point_up: ***NOTA***: si ya tienes familiaridad con este tipo de sistemas de configuración, puedes editar el archivo "serie.config.js" directamente en la carpeta "data".
+:point_up: ***NOTA***: si ya tienes familiaridad con este tipo de sistemas de configuración, puedes editar el archivo "serie.config.js" directamente en la carpeta "data" sin necesidad de usar la **interfaz de configuración**.
 
 ### 6. Construir el sitio en modo desarrollador
 
 Antes de crear la versión final del sitio, puedes construirlo en modo desarrollador, esto te permitirá ver y editar una versión de previsualización localmente, sin necesidad de subirla a internet. Para hacerlo, copia y pega el siguiente código en la terminal `npm run dev` y presiona enter.
 
-Este código realizará algunas tareas de construcción del sitio, de acuerdo con tu configuración, metadatos e imágenes. Estas tareas pueden tomar unos minutos. Luego se creará el sitio y se servirá localmente. Busca en la terminal un aviso que dice `Local:` seguido de una dirección en color azul. Copia esa dirección en tu explorador web, allí podrás previsualizar cómo se verá tu sitio. 
+Este código realizará algunas tareas de construcción del sitio, de acuerdo con tu configuración, metadatos e imágenes. Estas tareas pueden tomar unos minutos. Luego se creará el sitio y se servirá localmente. Busca en la terminal un aviso que dice `Local:` seguido de una dirección en color azul. Copia esa dirección en tu explorador web, allí podrás previsualizar cómo se verá tu sitio.
 
 :point_up: ***NOTA***: si solo necesitas la previsualización pero no requieres ejecutar las tareas nuevamente, por ejemplo, si no modificaste las imágenes, la configuración o los metadatos, pero necesitas previsualizar y editar el contenido de las páginas o su diseño en Svelte, puedes simplemente ejecutar el siguiente código: `npm run preview`. Igualmente, si solo necesitas ejecutar las tareas, para posteriormente crear el build final del sitio, sin pasar por previsualización, puedes ejecutar el código: `npm run tasks`.
 
@@ -100,7 +100,7 @@ Adicional al formato tradicional de Markdown, puedes incrustar en las páginas T
 
 ### 8. Publicar el sitio
 
-Una vez tengas una versión terminada del sitio lista para publicar, copia y pega este código en la terminal: `npm run build` y presiona enter. Esto creará una versión publicable del sitio en la carpeta "docs" dentro de la **carpeta del proyecto**. Ahora visita tu repositorio en el sitio web de GitHub (no olvides loggearte), haz clic en el botón "Settings" y, luego, en la columna izquierda, haz clic en "Pages". Allí, selecciona, justo debajo de la opción "Branch", lo siguiente: en el selector que dice "None", selecciona "main". Y en el nuevo selector que aparecerá, selecciona "/docs". Esto le indica a Github que tu página para publicar está en la carpeta "docs".
+Una vez tengas una versión terminada del sitio lista para publicar, asegúrate de salir del modo "dev" (presionando Ctrl/command + c), copia y pega este código en la terminal: `npm run build` y presiona enter. Esto creará una versión publicable del sitio en la carpeta "docs" dentro de la **carpeta del proyecto**. Ahora visita tu repositorio en el sitio web de GitHub (no olvides loggearte), haz clic en el botón "Settings" y, luego, en la columna izquierda, haz clic en "Pages". Allí, selecciona, justo debajo de la opción "Branch", lo siguiente: en el selector que dice "None", selecciona "main". Y en el nuevo selector que aparecerá, selecciona "/docs". Esto le indica a Github que tu página para publicar está en la carpeta "docs".
 
 Luego de hacer esto, GitHub creará un sitio web con la colección. Puede tomar unos minutos en terminar. Una vez esté completo, podrás visitar el sitio en un enlace con este formato: `https://TU_NOMBRE_DE_USUARIO.github.io/TU_REPOSITORIO/`.
 
@@ -109,7 +109,7 @@ Luego de hacer esto, GitHub creará un sitio web con la colección. Puede tomar 
 ## Opciones para usuarios intermedios
 
 - En el archivo serie.config.js en la carpeta data puedes modificar el texto que aparecerá como nombre de cada columna de metadatos modificando el objeto "metadataToShow" y el parámetro "label" en cada elemento.
-- En el archivo serie.config.js en la carpeta data puedes agregar un parámetro para añadir logos en el footer y uno para añadir una imágen de fondo al encabezado. Para añadir logos, debes incluir el parámetro "logos", y este debe contener una array de objetos. Cada objeto representa un logo y debe tener los siguientes parámetros `{img: RUTA_LOCAL_O_URL_A_IMAGEN, link: ENLACE}`. Para añadir una imagen de fondo al encabezado, debes incluir el parámetro "banner" y darle como valor una ruta local (en la carpeta static o una url a una imagen).
+- En el archivo serie.config.js en la carpeta data puedes agregar un parámetro para añadir logos en el footer y uno para añadir una imagen de fondo al encabezado. Para añadir logos, debes incluir el parámetro "logos", y este debe contener una array de objetos. Cada objeto representa un logo y debe tener los siguientes parámetros `{img: RUTA_LOCAL_O_URL_A_IMAGEN, link: ENLACE}`. Para añadir una imagen de fondo al encabezado, debes incluir el parámetro "banner" y darle como valor una ruta local (en la carpeta static o una url a una imagen).
 - En el archivo serie.config.js en la carpeta data puedes modificar el tipo de presentación de cada metadato modificando el objeto "metadataToShow" y el parámetro "type" en cada elemento. El tipo por defecto es "text". Los tipos de presentación posibles son:
 
 | Tipo       | Descripción                                                                          |
@@ -122,14 +122,14 @@ Luego de hacer esto, GitHub creará un sitio web con la colección. Puede tomar 
 | audio  | El dato debe ser una ruta válida desde la carpeta static o una url externa a un archivo de audio en un formato válido. El audio debe ponerse en esa ruta. Por ejemplo: `audio/mi-grabacion.wav`. Se mostrará un reproductor de audio incrustado |
 | youtube | El dato debe ser el id de un video de YouTube. Por ejemplo, en el video `https://www.youtube.com/watch?v=VTvluHmL4fY&ab_channel=Automata`, el id es la secuencia de letras y números después de `v=` y, si es el caso, antes del caracter `&`. Así, en el ejemplo, el id es `VTvluHmL4fY`. Se mostrará un reproductor de video de YouTube incrustado. |
 
-- Las siguientes son las funciones de comando disponibles en Serie Mini
+- Las siguientes son las funciones de la línea de comandos disponibles en Serie Mini
 
-| Comando                | Acción |
+| Comando             | Acción |
 |---                  |---     |
 | npm run config      | Inicia la interfaz CLI de configuración del proyecto. Usar este comando cuando se crea el proyecto por primera vez |
 | npm run clear       | Elimina la carpeta con derivatives IIIF |
 | npm run tasks       | Elimina la carpeta con derivatives IIIF, actualiza los metadatos, el índice de búsqueda, la presentación basada en la configuración y crea nuevos derivatives desde cero |
-| npm run dev         | Elimina la carpeta con derivatives IIIF, actualiza los metadatos, el índice de búsqueda, la presentación basada en la configuración  crea nuevos derivatives desde cero e inicia el servidor local de prueba. Usar este comando cuando se crea la colección por primera vez |
+| npm run dev         | Elimina la carpeta con derivatives IIIF, actualiza los metadatos, el índice de búsqueda, la presentación basada en la configuración, crea nuevos derivatives desde cero e inicia el servidor local de prueba. Usar este comando cuando se crea la colección por primera vez |
 | npm run preview     | Inicia el servidor local de prueba sin modificar los metadatos o derivatives de la colección y sin actualizar la presentación basada en la configuración. Usar este comando cuando solo se quiere modificar el contenido o la apariencia del sitio |
 | npm run update      | Actualiza los metadatos, y crea derivatives solo para nuevos ítems. Este commando evita tiempo de procesamiento cuando solo se quiere extender la colección con más elementos o actualizar la presentación basada en el archivo de configuración |
 | npm run build       | Crea una versión de producción. Usar este comando cuando se quiere publicar una nueva versión del sitio |
