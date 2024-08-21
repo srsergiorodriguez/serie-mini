@@ -16,6 +16,8 @@
   }
   const formattedData = Object.values(formattedObject);
 
+  const rows = formattedData.length * 70;
+
   let svgElement;
 
   onMount(makeViz);
@@ -32,7 +34,7 @@
     const h = +svgStyle.height.replace("px","");
     const m = {h: w * 0.2, v: h * 0.1};
 
-    const g = d3.select(svgElement).append("g").attr("transform", `translate(${m.h}, ${m.v})`);
+    const g = svg.append("g").attr("transform", `translate(${m.h}, ${m.v})`);
     const gBar = g.append("g");
 
     const y = d3.scaleBand().domain(formattedData.map(d => d.key)).range([0, h - (m.v * 2)]).padding(0.33);
@@ -62,7 +64,7 @@
 
 <svelte:window on:resize={() => {rerender()}} />
 
-<div class="viz-container" style="--height:{300}">
+<div class="viz-container" style="--height:{rows}">
   <svg bind:this={svgElement} width="100%"></svg>
 </div>
 

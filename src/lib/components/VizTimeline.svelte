@@ -46,7 +46,7 @@
       .scaleExtent([1, 32])
       .on("zoom", zoomed);
 
-    const g = d3.select(svgElement).append("g").attr("transform", `translate(${m.h}, ${m.v})`);
+    const g = svg.append("g").attr("transform", `translate(${m.h}, ${m.v})`);
     const gx = svg.append("g");
     
     const xAxis = (g, x) => g
