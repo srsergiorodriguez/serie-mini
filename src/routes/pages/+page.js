@@ -1,8 +1,8 @@
-import { metadata } from '../data/metadata.js';
+import { projectMetadata } from '$data/metadata.js';
 
 export async function load({ params }) {
   return {
-      metadata
+    projectMetadata
   };
 }
 

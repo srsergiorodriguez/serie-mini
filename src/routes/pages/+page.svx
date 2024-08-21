@@ -1,0 +1,16 @@
+---
+name: pages
+layout: page
+---
+
+<script>
+  import SearchBar from '$components/SearchBar.svelte';
+  import Gallery from '$components/Gallery.svelte';
+</script>
+
+# Explorar
+
+Usa los componentes interactivos para explorar los ítems de la colección:
+
+<SearchBar />
+<Gallery filters={["label", "autor"]}/>

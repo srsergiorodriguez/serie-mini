@@ -1,0 +1,47 @@
+---
+name: tour
+layout: page
+---
+
+<script>
+  import ItemPreview from '$components/ItemPreview.svelte';
+  import VizTimeline from '$components/VizTimeline.svelte';
+  import VizBarChart from '$components/VizBarChart.svelte';
+  import VizHistogram from '$components/VizHistogram.svelte';
+</script>
+
+# Recorrido por la colección
+
+Esta colección de muestra recopila varias imágenes con representaciones alegóricas de América tomadas de [Rijksstudio](https://www.rijksmuseum.nl/en), la colección digital del Rijks Museum de Países Bajos. Todas las imágenes usadas están en el dominio público.
+
+Usa este archivo para incluir contenido que permita hacer un recorrido por la colección.
+
+Para poner una imagen correspondiente a un ítem de la colección en este recorrido, usa el componente ItemPreview: 
+
+`<ItemPreview pid="PID" title="TÍTULO" alt="TEXTO ALTERNATIVO" page="PÁGINA DEL ÍTEM (opcional)">`
+
+Así se mostrará una imagen que, si se cliquea, te llevará al elemento de la colección correspondiente.
+
+Así:
+
+<ItemPreview pid="AdriaenCollaert" title="Por Adriaen Collaert" />
+
+También puedes usar urls de imágenes externas con normalidad en el formato Markdown.
+
+## Elementos interactivos
+
+## Gráfico de barras
+
+`<VizBarChart key="columna con categoría"/>`
+
+<VizBarChart key="autor"/>
+
+## Histograma
+
+<VizHistogram key="fecha"/>
+
+## Línea de tiempo
+
+`<VizTimeline dateKey="columna con fecha" metadata="metadatos filtrados (opcional)">`
+
+<VizTimeline dateKey="fecha"/>

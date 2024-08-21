@@ -1,6 +1,6 @@
 import { sveltekit } from '@sveltejs/kit/vite';
 import { defineConfig } from 'vite';
-import mdToSvelte from './plugins/mdToSvelte';
+import svxToSvelte from './plugins/svxToSvelte';
 import { watchAndRun } from 'vite-plugin-watch-and-run'
 import path from 'path'
 
@@ -9,16 +9,16 @@ export default defineConfig({
 		sveltekit(),
 		watchAndRun([
 			{
-				name: 'md-to-svelte',
-				run: "node ./plugins/mdToSvelte.js",
+				name: 'svx-to-svelte',
+				run: "node ./plugins/svxToSvelte.js",
 				watchKind: ['change'],
-        watch: path.resolve('data/content/*.(md|markdown)'),
+        watch: path.resolve('data/content/*.(md|markdown|svx)'),
 				delay: 200
 			}
 		]),
 		{
-			name: 'md-to-svelte',
-			buildStart: () => {mdToSvelte(false)}
+			name: 'svx-to-svelte',
+			buildStart: () => {svxToSvelte(false)}
 		}
 	]
 });

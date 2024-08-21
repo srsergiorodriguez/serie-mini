@@ -94,9 +94,24 @@ Como esta es una plantilla simple y pensada como herramienta pedagógica, el sit
 
 #### Componentes adicionales
 
-Adicional al formato tradicional de Markdown, puedes incrustar en las páginas Tour y Portada un componente que muestra una imagen perteneciente a un ítem de la colección usando la siguiente convención: `![TEXTO ALTERNATIVO](!pid DEL ÍTEM)`. Es decir, es igual a la convención de una imágen en Markdown, pero, en vez de un enlace a la imagen entre paréntesis, tiene el pid del ítem precedido por un signo de admiración "!". Este componente muestra la imagen, su label y lleva a la página del ítem al hacer clic en él. Así, puede usarse, por ejemplo, en la página de Tour para hacer referencia a imágenes de la colección.
+Adicional al formato tradicional de Markdown, puedes incrustar en las páginas diversos componentes interactivos que extienden la narrativa y navegación de la colección. Para agregar un componente es necesario importarlo dentro de una etiqueta de `script` entre el front matter y el contenido del archivo Markdown. Para importar un componente debes usar este formato:
 
-:point_up: ***NOTA***: usuarios más avanzados pueden crear sus propias páginas y componentes usando Svelte, y pueden adaptar el sistema de transformación de Markdown a Svelte (usa la librería <a href="https://github.com/pablo-abc/svelte-markdown" target="_blank">svelte-markdown</a>)
+```JavaScript
+<script>
+  import NOMBREDECOMPONENTE from "$components/NOMBREDECOMPONENTE.svelte"
+</script>
+```
+Luego de la importación puedes poner los componentes en la parte del contenido que consideres necesario usando la etiqueta con el nombre del componente y sus props o argumentos si aplica. Los props son argumentos que requiere un componente para funcionar adecuadamente. La siguiente tabla describe los componentes implementados hasta el momento (los props con asterisco son opcionales).
+
+| Cmponente   | Props | Descripción |
+|---          |---    |--- |
+| ItemPreview | pid=pid de ítem, *title=texto descriptivo *alt=texto alternativo *page=por defecto, 1. Página del ítem a mostrar | Previsualizador de ítem de la colección. Si se cliquea lleva a la página del ítem |
+| SearchBar   |       | Barra de búsqueda simple de ítems de la colección |
+| Gallery     | *metadata=array con metadatos prefiltrados, *filters=array con nombres de columna para los filtros | Galería de ítems de la colección con filtros |
+| VizBarChart | key=nombre de columna categórica | Gráfico de barras horizontales que muestra un conteo de categorías |
+| VizTimeline | dateKey=nombres de columna con fechas válidas, *metadata=array con metadatos prefiltrados | Línea de tiempo que permite explorar los ítems de acuerdo con fechas |
+
+:point_up: ***NOTA***: usuarios más avanzados pueden crear sus propias páginas y componentes adicionales usando Svelte.
 
 ### 8. Publicar el sitio
 
@@ -151,7 +166,7 @@ A continuación hay una lista de las característcas desarrolladas para la versi
 - [x] Generación de manifests IIIF para cada imagen (usa la librería digital-piranesi/iiif-manifest-library) (1.0)
 - [x] Visor de imágenes IIIF 3 (usa la librería OpenSeaDragon)
 - [x] Componente de previsualización de ítem hipervinculado a página de ítem
-- [x] Soporte Markdown para edición simplificada de páginas (usa la librería svelte-markdown)
+- [x] Soporte Markdown para edición simplificada de páginas (usa la librería mdsvex)
 - [x] Interfaz de galería con filtros de exploración
 - [x] Distintos modos de presentación de los metadatos (texto, link, referencia, video, audio, imagen...)
 - [x] Espacio para banner en el header y logos en el footer

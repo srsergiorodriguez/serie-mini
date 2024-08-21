@@ -97,4 +97,24 @@
   :global(.noevents) {
     pointer-events: none;
   }
+
+  :global(.reset-button) {
+    cursor: pointer;
+    padding: 0px;
+    margin: 0px;
+    border: none;
+    background: none;
+  }
+
+  :global(.reset-button:active) {
+    filter: invert(1);
+  }
+
+  :global(.reset-button:hover) {
+    filter: invert(0.5);
+  }
+
+  :global(.reset-button img) {
+    height: 1.2rem;
+  }
 </style>

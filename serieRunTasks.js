@@ -46,7 +46,7 @@ async function main() {
   await copyData();
 
   if (createDerivatives) {
-    // Create the Collection: IIIF derivatives and adjunts metadata
+    // Create the Collection: IIIF derivatives and adjunct metadata
     await createCollection();
   }
 }
@@ -121,7 +121,7 @@ async function createSearchIndex(metadata) {
 }
 
 async function createMetadataJS(metadata) {
-  await fs.writeFile(metadataPath, `export const metadata = ${JSON.stringify(metadata)};`);
+  await fs.writeFile(metadataPath, `export const projectMetadata = ${JSON.stringify(metadata)};`);
 }
 
 async function batchProcessImages(metadata) {
