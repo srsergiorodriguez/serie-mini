@@ -8,7 +8,7 @@ layout: page
   import VizTimeline from '$components/VizTimeline.svelte';
   import VizBarChart from '$components/VizBarChart.svelte';
   import VizHistogram from '$components/VizHistogram.svelte';
-  import VizTreemap from '$components/VizTreemap.svelte';
+  import VizTree from '$components/VizTree.svelte';
 </script>
 
 # Recorrido por la colección
@@ -41,9 +41,9 @@ También puedes usar urls de imágenes externas con normalidad en el formato Mar
 
 <VizHistogram key="fecha"/>
 
-## Treemap
+## Tree
 
-<VizTreemap keys={["autor", "label"]}/>
+<VizTree keys={["autor", "label"]}/>
 
 ## Línea de tiempo
 

@@ -57,28 +57,39 @@
 
     const root = d3.hierarchy(formattedMetadata).sum(d => d.value);
 
-    const treemap = d3.treemap().size([w - (m.h * 2), h - (m.v * 2)]).paddingInner(4);
+    const treemap = d3.tree().size([w - (m.h * 2), h/2 - (m.v * 2)]);
 
     treemap(root);
     console.log(root.leaves());
 
+    svg.append("g")
+      .attr("fill", "none")
+      .attr("stroke", "black")
+      .attr("stroke-width", 2)
+      .selectAll("path")
+        .data(root.links())
+        .join("path")
+        .attr("d", d3.link(d3.curveBumpX)
+            .x(d => d.y)
+            .y(d => d.x));
+
     update();
     
     function update() {
-      const cell = gCell
-        .selectAll("g")
-        .data(root.leaves())
-        .enter().append("g")
-        .attr("transform",d=>`translate(${d.x0},${d.y0})`)
+      // const cell = gCell
+      //   .selectAll("g")
+      //   .data(root.leaves())
+      //   .enter().append("g")
+      //   .attr("transform",d=>`translate(${d.x0},${d.y0})`)
     
-      cell.append("rect")
-        .attr("width",d=>d.x1-d.x0)
-        .attr("height",d=>d.y1-d.y0)
-        .attr("fill",d=>color(d.parent.data.name))
+      // cell.append("rect")
+      //   .attr("width",d=>d.x1-d.x0)
+      //   .attr("height",d=>d.y1-d.y0)
+      //   .attr("fill",d=>color(d.parent.data.name))
     
-      cell.append("text")
-        .text(d=>d.data.name)
-        .attr("alignment-baseline","hanging")
+      // cell.append("text")
+      //   .text(d=>d.data.name)
+      //   .attr("alignment-baseline","hanging")
     }
   }
 
