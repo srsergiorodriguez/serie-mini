@@ -6,6 +6,7 @@
   
   export let key;
   export let metadata = projectMetadata;
+  export let top = 10;
 
   const formattedObject = {};
   for (let d of metadata) {
@@ -14,7 +15,11 @@
     }
     formattedObject[d[key]].count++;
   }
-  const formattedData = Object.values(formattedObject);
+  let formattedData = Object.values(formattedObject).sort((a, b) => d3.descending(a.count, b.count))
+  if (top !== undefined) {
+    formattedData = formattedData.slice(0, top);
+  }
+
 
   const rows = formattedData.length * 70;
 

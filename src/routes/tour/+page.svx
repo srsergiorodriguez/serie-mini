@@ -33,20 +33,24 @@ También puedes usar urls de imágenes externas con normalidad en el formato Mar
 
 ## Gráfico de barras
 
-`<VizBarChart key="columna con categoría"/>`
+`<VizBarChart key="columna con valor categórico" top="numero de barras con mayor conteo (opcional, por defecto 10)/>`
 
 <VizBarChart key="autor"/>
 
 ## Histograma
 
+`<VizBarChart key="columna con valor numérico" />`
+
 <VizHistogram key="fecha"/>
 
-## Tree
+## Árbol jerárquico
+
+`<VizTree key="Array con columnas con valores categóricos" metadata="metadatos prefiltrados (opcional)"/>`
 
 <VizTree keys={["autor", "label"]}/>
 
 ## Línea de tiempo
 
-`<VizTimeline dateKey="columna con fecha" metadata="metadatos filtrados (opcional)">`
+`<VizTimeline dateKey="columna con fecha" metadata="metadatos prefiltrados (opcional)">`
 
 <VizTimeline dateKey="fecha"/>

@@ -1,16 +1,13 @@
 <script>
-  import serieConfig from '$config/serie.config';
-  import { base } from '$app/paths';
-
   import { onMount } from 'svelte';
   import * as d3 from "d3";
-
   import { projectMetadata } from '$routes/data/metadata';
+  import ItemsBar from '$components/ItemsBar.svelte';
   
   export let dateKey;
   export let metadata = projectMetadata;
 
-  let pieces = [];
+  let items = [];
 
   const formattedObject = {};
   for (let d of metadata) {
@@ -70,9 +67,8 @@
     const gDot = g.append("g")
       .attr("fill", "none")
       .attr("stroke-linecap", "round")
-      .style("stroke-width", 2)
+      .style("stroke-width", 1)
 
-    // const y = d3.scaleLinear().domain([-1, 1]).range([h - (m.v * 2), 0]);
     const x = d3.scaleTime()
       .domain(d3.extent(formattedData, d => d.date))
       .range([0, w - (m.h * 2)])
@@ -89,7 +85,7 @@
 
     resetZoom = () => {  
       const transform = d3.zoomIdentity.translate(0, 0).scale(1); 
-      pieces = [];
+      items = [];
       
       svg.transition()
           .ease(d3.easeQuadOut)
@@ -111,7 +107,7 @@
         .attr("cursor", "pointer")
 
       dots.on("click", function(event, d) {
-        pieces = d.data;  
+        items = d.data;  
       })
     }
   }
@@ -122,49 +118,24 @@
 
 <div class="timeline-container">
   <svg bind:this={svgElement} width="100%"></svg>
-  <div class="works-preview-container">
+  {#if items.length > 0}
     <div class="network-container-overlay">
       <button class="reset-button" on:click={resetZoom}><img src='./icons/reset.png' alt='reset'></button>
     </div>
-    {#if serieConfig.pages.iiifViewer && pieces.length > 0}
-      {#each pieces as d, i (i)}
-        <div class="work-preview no-select">
-          <a class="thumb" href="{base}/pages/{d.pid}"><img class="noevents" src="{base}/iiif/{d.pid}/0/full/256,/0/default.jpg" alt={d.label}/></a>
-          <a href="{base}/pages/{d.pid}"><span>{d.label}</span></a>
-        </div>
-      {/each}
-    {/if}
-  </div>
+  {/if}
+  <ItemsBar {items} />
 </div>
 
 <style>
   .timeline-container {
     margin: 1em;
-    /* border: solid 1px var(--stroke); */
+    position: relative;
   }
 
-  .thumb {
-    height: 100px;
-    max-width: 200px;
-    object-fit: contain;
-  }
-
-  .thumb img {
-    height: 100%;
-    width: 100%;
-    object-fit: cover;
-  }
-
-  .works-preview-container {
-    padding: 1em;
-    display: flex;
-    gap: 1em;
-    overflow-x: scroll;
-  }
-
-  .work-preview {
-    display: flex;
-    flex-direction: column;
+  .network-container-overlay {
+    position: absolute;
+    top: 10px;
+    left: 2%;
   }
 
   svg {

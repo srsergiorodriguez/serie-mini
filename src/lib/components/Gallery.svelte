@@ -1,7 +1,6 @@
 <script>
   import { base } from '$app/paths';
   import { sortAlpha } from '../helpers';
-  import { blur } from 'svelte/transition';
   import { t } from '$stores/translations';
   import Filter from './Filter.svelte';
   import Pager from './Pager.svelte';
@@ -34,7 +33,7 @@
 
 <div class="preview-gallery">
   {#each sortAlpha(filtered, "label").slice(page * perPage, (page + 1) * perPage) as d (d.pid)}
-    <div transition:blur={{ duration: 400 }} class="preview-item">
+    <div class="preview-item">
       {#if serieConfig.pages.iiifViewer && d._images > 0}
         <a href="{base}/pages/{d.pid}"><img src="{base}/iiif/{d.pid}/0/full/256,/0/default.jpg" alt={d.label}/></a>
       {/if}
