@@ -20,7 +20,6 @@
     formattedData = formattedData.slice(0, top);
   }
 
-
   const rows = formattedData.length * 70;
 
   let svgElement;
