@@ -1,10 +1,13 @@
 <script>
   import { base } from '$app/paths';
   import serieConfig from '$config/serie.config';
+  import { projectMetadata } from '$data/metadata.js';
 
-  export let metadata;
+  export let metadata = projectMetadata;
+  export let direction = "row";
+  export let itemsNr = 3;
 
-  const selectNr = Math.min(3, metadata.length);
+  const selectNr = Math.min(itemsNr, metadata.length);
   const selected = getSelection(metadata);
   
   function getSelection(arr) {
@@ -20,7 +23,7 @@
 
 </script>
 
-<div class="preview-carousel">
+<div class="preview-carousel" style={`--direction:${direction}`}>
   {#each selected as d (d.pid)}
     <div class="preview-item">
       {#if serieConfig.pages.iiifViewer && d._images > 0}
@@ -35,7 +38,7 @@
   .preview-carousel {
     display: flex;
     flex-wrap: wrap;
-    flex-direction: row;
+    flex-direction: var(--direction);
     justify-content: space-evenly;
     gap: 1.5em;
     overflow: scroll;

@@ -31,11 +31,13 @@
   .work-preview {
     display: flex;
     flex-direction: column;
+    max-width: 130px;
+    font-size: 0.8em;
   }
 
   .thumb {
     height: 100px;
-    max-width: 200px;
+    width: 130px;
     object-fit: contain;
   }
 

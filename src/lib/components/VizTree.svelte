@@ -11,7 +11,7 @@
 
   const formattedMetadata = formatData(metadata);
   const root = d3.hierarchy(formattedMetadata).sum(d => d.value);
-  const height = root.leaves().length * 80;
+  const height = root.leaves().length * 30;
 
   function reset() {
     items = [];
@@ -83,7 +83,7 @@
     const svgStyle = getComputedStyle(svgElement);
     const w = +svgStyle.width.replace("px","");
     const h = +svgStyle.height.replace("px","");
-    const m = {h: w * 0.1, v: h * 0.1};
+    const m = {h: w * 0.1, v: 10};
     const r = 7;
 
     const g = svg.append("g").attr("transform", `translate(${m.h}, ${m.v})`);
@@ -121,13 +121,12 @@
         items = getItems(d);
       })
 
-
       nodes.append("text")
         .text(d => d.data.name)
         .attr("font-size", 7 + (w/150))
         .attr("text-anchor", d => d.children ? "end" : "start")
         .attr("paint-order", "stroke")
-        .attr("stroke", "white")
+        .attr("stroke", "var(--fill)")
         .attr("stroke-width", 6)
         .attr("x", d => d.children ? -r - 4 : r + 4)
         .attr("dy", "0.32em")

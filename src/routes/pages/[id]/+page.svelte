@@ -10,6 +10,10 @@
   const pagesConfig = serieConfig.pages;
 </script>
 
+<svelte:head>
+  <title>{`${itemMetadata.label} - ${serieConfig.title}`}</title>
+</svelte:head>
+
 <Page name={itemMetadata.label}>
   <h1>{itemMetadata.label}</h1>
 
