@@ -67,7 +67,7 @@
     const gDot = g.append("g")
       .attr("fill", "none")
       .attr("stroke-linecap", "round")
-      .style("stroke-width", 1)
+      .attr("stroke-width", 1)
 
     const x = d3.scaleTime()
       .domain(d3.extent(formattedData, d => d.date))
@@ -84,7 +84,8 @@
     }
 
     resetZoom = () => {  
-      const transform = d3.zoomIdentity.translate(0, 0).scale(1); 
+      const transform = d3.zoomIdentity.translate(0, 0).scale(1);
+      gDot.selectAll("circle").attr("stroke-width", 1);
       items = [];
       
       svg.transition()
@@ -105,9 +106,13 @@
         .attr("stroke", "var(--accent2)")
         .attr("fill", "var(--accent1)")
         .attr("cursor", "pointer")
+        
 
       dots.on("click", function(event, d) {
         items = d.data;  
+        const elt = d3.select(event.target);
+        dots.attr("stroke-width", 1);
+        elt.attr("stroke-width", 4);
       })
     }
   }

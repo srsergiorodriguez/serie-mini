@@ -8,13 +8,15 @@
   export let metadata = projectMetadata;
 
   let items = [];
+  let dots;
 
   const formattedMetadata = formatData(metadata);
   const root = d3.hierarchy(formattedMetadata).sum(d => d.value);
-  const height = root.leaves().length * 30;
+  const height = root.leaves().length * 35;
 
   function reset() {
     items = [];
+    dots.attr("stroke-width", 1);
   }
 
   function formatData(data) {
@@ -111,14 +113,18 @@
         .join("g")
           .attr("transform", d => `translate(${d.y},${d.x})`);
 
-      const dots = nodes.append("circle")
+      dots = nodes.append("circle")
         .attr("stroke", "var(--accent2)")
         .attr("fill", "var(--accent1)")
         .attr("cursor", "pointer")
-        .attr("r", r);
+        .attr("r", r)
+        .attr("stroke-width", 1)
 
       dots.on("click", function(event, d) {
         items = getItems(d);
+        const elt = d3.select(event.target);
+        dots.attr("stroke-width", 1);
+        elt.attr("stroke-width", 4);
       })
 
       nodes.append("text")
