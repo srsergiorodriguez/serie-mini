@@ -1,10 +1,10 @@
 # Introducción
 
-Esta es un sistema, llamado Serie Mini, para la creación de colecciones culturales digitales simples y mínimas. Está pensado como medio educativo en el contexto de las artes y humanidades digitales o como herramienta para proyectos culturales de computación mínima que requieran crear sitios estáticos, livianos y portables.
+Este es un sistema, llamado Serie Mini, para la creación de colecciones culturales digitales simples y mínimas. Está pensado como medio educativo en el contexto de las artes y humanidades digitales o como herramienta para proyectos culturales de computación mínima que requieran crear sitios estáticos, livianos y portables.
 
 Como ejemplo, aquí puedes ver un ejemplo de una colección de fanzines hecha con Serie Mini: <a href="https://srsergiorodriguez.github.io/zine/" target="_blank">enlace</a>.
 
-El sistema permite crear un sitio web con algunas páginas esenciales en una colección cultural digital: una portada, una página de exploración, un recorrido guiado, una página con metadatos, y una página para cada ítem de la colección con un visor de imágenes y una presentación de metadatos. Los sitios generados con Serie Mini pueden publicarse en GitHub pages de forma gratuita por defecto, lo que permite crear colecciones con requerimientos mínimos de recursos económicos y mantenimiento.
+El sistema permite crear un sitio web con algunas páginas esenciales en una colección cultural digital: una portada, una página de exploración, un recorrido guiado con visualizaciones interactiva, una página con metadatos, y una página para cada ítem de la colección con un visor de imágenes y una presentación de metadatos. Los sitios generados con Serie Mini pueden publicarse en GitHub pages de forma gratuita por defecto (o en otras plataformas de alojamiento), lo que permite crear colecciones con requerimientos mínimos de recursos económicos y mantenimiento.
 
 Serie Mini está pensada para facilitar al máximo la creación de colecciones digitales a personas que están apenas entrando en el tema o en las artes y humanidades digitales en general.
 
@@ -25,7 +25,7 @@ Para usar la plantilla es necesario cumplir los siguientes prerrequisitos:
 
 - Tener una cuenta en <a href="https://github.com/">GitHub</a> y el programa <a href="https://desktop.github.com/" target="_blank">GitHub Desktop</a> instalado en el computador (inicia sesión en Github desktop con tu cuenta de GitHub)
 - Tener una versión reciente de <a href="https://nodejs.org/en" target="_blank">Node.js</a> instalada en el computador
-- Tener el editor de texto <a href="https://code.visualstudio.com/" target="_blank">Visual Studio Code</a> (es posible usar otro editor, pero las instrucciones están basadas en este)
+- Tener el editor de texto <a href="https://code.visualstudio.com/" target="_blank">Visual Studio Code</a> (es posible usar otro editor, pero estas instrucciones están basadas en ese editor)
 
 ### 1. Crear un repositorio a partir de esta plantilla
 
@@ -45,7 +45,7 @@ En *la terminal*, copia y pega el siguiente comando: `npm install` y presiona en
 
 Abre la carpeta "data" contenida dentro de la **carpeta del proyecto** en el explorador de archivos, aquí debes reemplazar el archivo "metadata.csv" por uno que contenga los metadatos de tu colección y debes reemplazar las imágenes contenidas en la carpeta "raw_images" por las que corresponden a tu colección, cada imagen debe nombrarse con un pid (identificador personal único) que corresponda a una fila en tu archivo de metadatos. Puedes usar archivos jpg, png, tiff, y gif; o, en el caso de varias imágenes por ítem, puedes crear una carpeta (que debe tener el nombre del pid) con varias imágenes en los formatos válidos (estas imágenes pueden tener cualquier nombre, pero en la presentación se mostrarán por orden alfabético).
 
-:eyes: ***OJO***: es NECESARIO que el archivo csv contenga al menos dos columnas: una llamada "*pid*" (en minúsculas) con un identificador ÚNICO para cada ítem de la colección, y una llamada "*label*" (en minúsculas) con un título para el ítem. El pid de cada ítem solo puede contener números y letras. Todas las demás columnas son opcionales y pueden tener los datos que consideres relevantes y siguiendo tus propios protocolos (aunque no puedes iniciar el nombre de la columna con un guion bajo '_', está reservado). Revisa el archivo "metadata.csv" que viene por defecto ante las dudas.
+:eyes: ***OJO***: es NECESARIO que el archivo csv contenga al menos dos columnas: una llamada "*pid*" (en minúsculas) con un identificador ÚNICO para cada ítem de la colección, y una llamada "*label*" (en minúsculas) con un título para el ítem. El pid de cada ítem solo puede contener números y letras ascii (es decir, nada de signos de puntuación, espacios, acentos u otros caracteres). Todas las demás columnas son opcionales y pueden tener los datos que consideres relevantes y siguiendo tus propios protocolos (aunque no puedes iniciar el nombre de la columna con un guion bajo '_', está reservado). Revisa el archivo "metadata.csv" que viene por defecto ante las dudas.
 
 :eyes: ***OJO2***: es NECESARIO que las imágenes o la carpeta con múltiples imágenes tengan **EXACTAMENTE** (incluyendo mayúsculas y minúsculas) el mismo nombre que el "pid" del ítem al que corresponden. Revisa las imágenes que vienen por defecto en la carpeta "raw_images" ante las dudas.
 
@@ -72,43 +72,46 @@ En **la terminal**, copia y pega el siguiente comando `npm run config` y presion
 
 Antes de crear la versión final del sitio, puedes construirlo en modo desarrollador, esto te permitirá ver y editar una versión de previsualización localmente, sin necesidad de subirla a internet. Para hacerlo, copia y pega el siguiente código en la terminal `npm run dev` y presiona enter.
 
-Este código realizará algunas tareas de construcción del sitio, de acuerdo con tu configuración, metadatos e imágenes. Estas tareas pueden tomar unos minutos. Luego se creará el sitio y se servirá localmente. Busca en la terminal un aviso que dice `Local:` seguido de una dirección en color azul. Copia esa dirección en tu explorador web, allí podrás previsualizar cómo se verá tu sitio.
+Este código realizará algunas tareas de construcción del sitio, de acuerdo con tu configuración, metadatos e imágenes. Dependiendo de la cantidad de imágenes que tengas en tu colecicón, estas tareas pueden tomar unos minutos. Luego se creará el sitio y se servirá localmente. Busca en la terminal un aviso que dice `Local:` seguido de una dirección en color azul. Copia esa dirección en tu explorador web, allí podrás previsualizar cómo se verá tu sitio.
 
 :point_up: ***NOTA***: si solo necesitas la previsualización pero no requieres ejecutar las tareas nuevamente, por ejemplo, si no modificaste las imágenes, la configuración o los metadatos, pero necesitas previsualizar y editar el contenido de las páginas o su diseño en Svelte, puedes simplemente ejecutar el siguiente código: `npm run preview`. Igualmente, si solo necesitas ejecutar las tareas, para posteriormente crear el build final del sitio, sin pasar por previsualización, puedes ejecutar el código: `npm run tasks`.
 
 ### 7. Editar el contenido del sitio
 
-En la carpeta "data/content" dentro de la **carpeta del proyecto** encuentras una serie de archivos en formato Markdown que definen el contenido de las páginas estáticas de la colección. Estas páginas se pueden editar usando las convenciones de <a href="https://es.wikipedia.org/wiki/Markdown" target="_blank">Markdown</a>. Los cambios hechos en estos archivos se insertarán y actualizarán automáticamente, así que, en modo desarrollador, podrás ver la apariencia final de las páginas y editarlas a tu gusto.
+En la carpeta "data/content" dentro de la **carpeta del proyecto** encuentras una serie de archivos en formato svx que definen el contenido de las páginas estáticas de la colección. Estas páginas se pueden editar usando las convenciones de <a href="https://es.wikipedia.org/wiki/Markdown" target="_blank">Markdown</a>. Los cambios hechos en estos archivos se insertarán y actualizarán automáticamente, así que, en modo desarrollador, podrás ver la apariencia final de las páginas y editarlas a tu gusto.
 
-Como esta es una plantilla simple y pensada como herramienta pedagógica, el sitio contiene una serie de páginas de bas en Markdown en esta carpeta que cumplen varias funciones específicas. Como se describe a continuación:
+Como esta es una plantilla simple y pensada como herramienta pedagógica, el sitio contiene una serie de páginas de base en Markdown en esta carpeta que cumplen varias funciones específicas. Como se describe a continuación:
 
 | Página    | Descripción                                                                                                  |
 |---        |---                                                                                                           |
 | portada   | Es la primera página que aparece cuando se carga el sitio. Aquí puedes hacer una introducción a la colección |
 | explorar  | Esta página contiene un buscador y una galería básicos para ver un sobrevuelo de la colección                |
-| tour      | En esta página puedes hacer un ensayo o recorrido por temas o elementos particulares de la colección         |
+| tour      | En esta página puedes hacer un ensayo o recorrido por temas o elementos particulares de la colección con algunas visualizaciones interactivas         |
 | creditos  | En esta página puedes poner tus créditos detallados. Se accede a través del footer                           |
 | metadatos | En esta página se muestra una tabla con los metadatos de la colección y un botón para descargarlos. Puedes usarla, como se muestra en el ejemplo, para poner otra información relacionada con la recolección y modelado de los datos. Por ejemplo, sus protocolos |
 
-:point_up: ***NOTA***: en la parte superior de la página Explorar hay una variable llamada "galleryFilters", los nombres de columnas de los metadatos que se incluyan aquí determinarán los filtros posibles que se pueden usar en la galería, por ejemplo, para permitir filtar por pid y label, debes poner: `galleryFilters: ["pid", "label"]`.
-
 #### Componentes adicionales
 
-Adicional al formato tradicional de Markdown, puedes incrustar en las páginas diversos componentes interactivos que extienden la narrativa y navegación de la colección. Para agregar un componente es necesario importarlo dentro de una etiqueta de `script` entre el front matter y el contenido del archivo Markdown. Para importar un componente debes usar este formato:
+Adicional al formato tradicional de Markdown, puedes incrustar en las páginas diversos componentes interactivos y visualizaciones que extienden la narrativa y navegación de la colección. Para agregar un componente es necesario importarlo dentro de una etiqueta de `script` entre el front matter y el contenido del archivo svx. Para importar un componente debes usar este formato:
 
 ```JavaScript
 <script>
   import NOMBREDECOMPONENTE from "$components/NOMBREDECOMPONENTE.svelte"
 </script>
 ```
-Luego de la importación puedes poner los componentes en la parte del contenido que consideres necesario usando la etiqueta con el nombre del componente y sus props o argumentos si aplica. Los props son argumentos que requiere un componente para funcionar adecuadamente. La siguiente tabla describe los componentes implementados hasta el momento (los props con asterisco son opcionales).
 
-| Cmponente   | Props | Descripción |
+Ante las dudas, revisa el archivo "tour" en "data/content".
+
+Luego de la importación puedes poner los componentes en la parte del contenido que consideres necesario usando la etiqueta con el nombre del componente y sus props o argumentos, si aplica. Los props son los argumentos que requiere un componente para funcionar adecuadamente. La siguiente tabla describe los componentes implementados hasta el momento (los props con asterisco son opcionales).
+
+| Componente  | Props | Descripción |
 |---          |---    |--- |
 | ItemPreview | pid=pid de ítem, *title=texto descriptivo *alt=texto alternativo *page=por defecto, 1. Página del ítem a mostrar | Previsualizador de ítem de la colección. Si se cliquea lleva a la página del ítem |
 | SearchBar   |       | Barra de búsqueda simple de ítems de la colección |
 | Gallery     | *metadata=array con metadatos prefiltrados, *filters=array con nombres de columna para los filtros | Galería de ítems de la colección con filtros |
 | VizBarChart | key=nombre de columna categórica | Gráfico de barras horizontales que muestra un conteo de categorías |
+| VizHistogram | key=columna con valores numéricos | Histograma que muestra la frecuencia de valores numéricos |
+| VizTree | keys=array con nombres de columnas categóricas, *metadata=array con metadatos prefiltrados | Árbol filtrable que muestra la estructura jerárquica de la colección |
 | VizTimeline | dateKey=nombres de columna con fechas válidas, *metadata=array con metadatos prefiltrados | Línea de tiempo que permite explorar los ítems de acuerdo con fechas |
 
 :point_up: ***NOTA***: usuarios más avanzados pueden crear sus propias páginas y componentes adicionales usando Svelte.
@@ -125,7 +128,7 @@ Luego de hacer esto, GitHub creará un sitio web con la colección. Puede tomar 
 
 - En el archivo serie.config.js en la carpeta data puedes modificar el texto que aparecerá como nombre de cada columna de metadatos modificando el objeto "metadataToShow" y el parámetro "label" en cada elemento.
 - En el archivo serie.config.js en la carpeta data puedes agregar un parámetro para añadir logos en el footer y uno para añadir una imagen de fondo al encabezado. Para añadir logos, debes incluir el parámetro "logos", y este debe contener una array de objetos. Cada objeto representa un logo y debe tener los siguientes parámetros `{img: RUTA_LOCAL_O_URL_A_IMAGEN, link: ENLACE}`. Para añadir una imagen de fondo al encabezado, debes incluir el parámetro "banner" y darle como valor una ruta local (en la carpeta static o una url a una imagen).
-- En el archivo serie.config.js en la carpeta data puedes modificar el tipo de presentación de cada metadato modificando el objeto "metadataToShow" y el parámetro "type" en cada elemento. El tipo por defecto es "text". Los tipos de presentación posibles son:
+- En el archivo serie.config.js en la carpeta data puedes modificar el tipo de presentación de cada metadato modificando el objeto "metadataToShow" y el parámetro "type" en cada elemento. Esta es una opción muy poderosa, porque permite enriquecer la diversidad de metadatos de la colección. El tipo por defecto es "text", que simplemente muestra el valor como texto plano. Los tipos de presentación posibles son:
 
 | Tipo       | Descripción                                                                          |
 |---         |---                                                                                   |
@@ -137,7 +140,9 @@ Luego de hacer esto, GitHub creará un sitio web con la colección. Puede tomar 
 | audio  | El dato debe ser una ruta válida desde la carpeta static o una url externa a un archivo de audio en un formato válido. El audio debe ponerse en esa ruta. Por ejemplo: `audio/mi-grabacion.wav`. Se mostrará un reproductor de audio incrustado |
 | youtube | El dato debe ser el id de un video de YouTube. Por ejemplo, en el video `https://www.youtube.com/watch?v=VTvluHmL4fY&ab_channel=Automata`, el id es la secuencia de letras y números después de `v=` y, si es el caso, antes del caracter `&`. Así, en el ejemplo, el id es `VTvluHmL4fY`. Se mostrará un reproductor de video de YouTube incrustado. |
 
-- Las siguientes son las funciones de la línea de comandos disponibles en Serie Mini
+## Funciones de línea de comandos
+
+Las siguientes son las funciones de la línea de comandos disponibles en Serie Mini
 
 | Comando             | Acción |
 |---                  |---     |
@@ -151,7 +156,7 @@ Luego de hacer esto, GitHub creará un sitio web con la colección. Puede tomar 
 
 ## Ruta de trabajo y sostenibilidad del proyecto
 
-Versión actual: 1.0.0
+Versión actual: 2.0.0
 
 ### Características básicas
 
@@ -159,7 +164,7 @@ A continuación hay una lista de las característcas desarrolladas para la versi
 
 - [x] Readme con documentación en español
 - [x] Archivo de configuración global
-- [x] CLI de instalación bilingüe español inglés
+- [x] CLI de instalación bilingüe español e inglés
 - [x] Interfaz de sitio web en español e inglés
 - [x] Buscador de la colección (usa indexado basado en la librería Lunr)
 - [x] Procesamiento de imágenes para IIIF 3. Múltiples imágenes por ítem (usa la librería Sharp para la producción de derivatives IIIF y thumbnails)
@@ -173,9 +178,9 @@ A continuación hay una lista de las característcas desarrolladas para la versi
 
 ### Características adicionales
 
-Serie Mini funciona modularmente, así que se pueden añadir nuevas características y capacidades al sistema básico de colecciones que pueden potenciar las formas de presentación y análisis de los ítems. Debido a que Serie Mini es un proyecto de código abierto e independiente, se requieren recursos, tiempo y experticia para poder llevar a cabo e incluir esas al sistema. Por ese motivo, estoy abierto a donaciones y patrocinios enfocados al desarrollo de ellas. Instituciones o individuos interesados pueden aportar al desarrollo de características particulares que sean útiles para sus propios proyectos y esas características se añadirán a la base de código abierto del proyecto para que otros usuarios puedan también usarlas.
+Serie Mini funciona modularmente, así que se pueden añadir nuevas características y capacidades al sistema básico de colecciones que pueden potenciar las formas de presentación y análisis de los ítems. Debido a que Serie Mini es un proyecto de código abierto e independiente, se requieren recursos, tiempo y experticia para poder llevar a cabo e incluir esas al sistema. Por ese motivo, estoy abierto a donaciones y patrocinios que permitan continuar con el desarrollo de ellas. Instituciones o individuos interesados pueden aportar al proyecto y pueden sugerir nuevas características.
 
-Aunque no existe una cantidad específica para el patrocinio, para que el proyecto y desarrollo de características sea sostenible, es ideal que una institución, grupo o individuo patrocinante financie el desarrollo de una característica por completo, es decir, las horas de trabajo aproximadas que implicaría obtener un resultado de producción de la característica. Esto en ninguna medida quiere decir que los patrocinantes sean de ninguna manera dueños de la característica o que los tiempos y compromisos del desarrollo estén definidos u obligados por el patroncinio. A continuación presento una lista de posibles características que encajan en la ruta de desarrollo del proyecto:
+Aunque no existe una cantidad específica para el patrocinio, para que el proyecto y desarrollo de características sea sostenible, es ideal que una institución, grupo o individuo patrocinante financie el desarrollo de una característica por completo (o varias de ellas), es decir, las horas de trabajo aproximadas que implicaría obtener un resultado de producción de la característica. Esto en ninguna medida quiere decir que los patrocinantes sean de ninguna manera dueños de la característica o que los tiempos y compromisos del desarrollo estén definidos u obligados por el patroncinio. A continuación presento una lista de posibles características que encajan en la ruta de desarrollo del proyecto (algunas de ellas ya desarrolladas):
 
 - [ ] Exportación de folleto de la colección en pdf
 - [ ] Visor de textos anotados en TEI
@@ -184,10 +189,10 @@ Aunque no existe una cantidad específica para el patrocinio, para que el proyec
 - [ ] Visualización de gráfico de dispersión de imágenes al estilo ImagePlot
 - [ ] Mapa de burbujas y grafo en mapa
 - [ ] Paneles interactivos usando Aventura
-- [ ] Línea de tiempo
+- [x] Línea de tiempo, histograma, gráfico de barras, gráfico de árbol
 - [ ] Temas instalables
 
-A cambio de la donación al proyecto, la institución, grupo o individuos patrocinantes serán reconocidos públicamente (usando su nombre y logo y especificando el tipo de patrocinio) en este documento y en el *footer* del sitio de muestra de la colección, y podrán usar la característica desarrollada en sus projectos, así como cualquier otra persona que use la nueva versión del sistema.
+A cambio de la donación al proyecto, la institución, grupo o individuos patrocinantes serán reconocidos públicamente (usando su nombre y logo y especificando el tipo de patrocinio) en este documento y en el *footer* del sitio de muestra de la colección.
 
 Adicionalmente, individuos interesados pueden donar usando los enlaces de [Ko-fi](ko-fi.com/srsergior) y [Buy me a Coffee](buymeacoffee.com/srsergior).
 
