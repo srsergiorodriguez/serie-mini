@@ -4,11 +4,11 @@ Este es un sistema, llamado Serie Mini, para la creación de colecciones cultura
 
 Como ejemplo, aquí puedes ver un ejemplo de una colección de fanzines hecha con Serie Mini: <a href="https://srsergiorodriguez.github.io/zine/" target="_blank">enlace</a>.
 
-El sistema permite crear un sitio web con algunas páginas esenciales en una colección cultural digital: una portada, una página de exploración, un recorrido guiado con visualizaciones interactiva, una página con metadatos, y una página para cada ítem de la colección con un visor de imágenes y una presentación de metadatos. Los sitios generados con Serie Mini pueden publicarse en GitHub pages de forma gratuita por defecto (o en otras plataformas de alojamiento), lo que permite crear colecciones con requerimientos mínimos de recursos económicos y mantenimiento.
+El sistema permite crear un sitio web con algunas páginas esenciales en una colección cultural digital: una portada, una página de exploración, un recorrido guiado con visualizaciones interactivas, una página con metadatos, y una página para cada ítem de la colección con un visor de imágenes y una presentación de metadatos. Los sitios generados con Serie Mini pueden publicarse en GitHub pages de forma gratuita por defecto (o en otras plataformas de alojamiento), lo que permite crear colecciones con requerimientos mínimos de recursos económicos y mantenimiento.
 
 Serie Mini está pensada para facilitar al máximo la creación de colecciones digitales a personas que están apenas entrando en el tema o en las artes y humanidades digitales en general.
 
-No obstante, estes sistema también puede ser extendido por personas con un conocimiento más avanzado de programación y diseño web. Concretamente, el sistema está construido usando Node y el **framework** Svelte de diseño web y componentes personalizados.
+No obstante, este sistema también puede ser extendido por personas con un conocimiento más avanzado de programación y diseño web. Concretamente, el sistema está construido usando Node y el **framework** Svelte de diseño web y componentes personalizados.
 
 Serie Mini está inspirada en otros proyectos similares, especialmente <a href="https://minicomp.github.io/wax/" target="_blank">Wax</a> y <a href="https://collectionbuilder.github.io/" target="_blank">Collection Builder</a>, que siguen principios de <a href="https://go-dh.github.io/mincomp/about/" target="_blank">computación mínima</a> en el campo de las humanidades digitales, pero tiene algunas diferencias:
 
